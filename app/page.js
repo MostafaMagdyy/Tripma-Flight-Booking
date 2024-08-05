@@ -3,7 +3,6 @@ import CustomSelect from "@/components/Inputs/selectFlights";
 import styles from "./page.module.css";
 import Image from "next/image";
 import CookiePopup from "@/components/Cookies/cookies";
-import Signup from "@/components/Signup/signup";
 import { useState } from "react";
 export default function Home() {
   const [cookiespopup, setCookiespopup] = useState(true);

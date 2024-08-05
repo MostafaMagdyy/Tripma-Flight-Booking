@@ -3,7 +3,12 @@ import styles from "./signup.module.css";
 import LoginWithButton from "./loginwith";
 const Signup = ({ onClose }) => {
   return (
-    <div className={styles.modal}>
+    <div
+      className={styles.modal}
+      onClick={(e) => {
+        if (e.target == e.currentTarget) onClose();
+      }}
+    >
       <div className={styles.modalContent}>
         <div className={styles.headercontainer}>
           <div className={styles.header}>
