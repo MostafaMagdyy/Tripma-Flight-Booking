@@ -1,5 +1,13 @@
+.outercontainer {
+  padding: 8px 0px 160px 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .container {
-  padding-top: 100px;
+  padding-top: 50px;
 }
 .selectcontainer {
   width: 100%;
