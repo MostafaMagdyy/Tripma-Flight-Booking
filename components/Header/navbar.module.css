@@ -38,6 +38,9 @@
   background-color: #605dec;
   border-radius: 4px;
 }
-ul a .signup {
+.btn {
+  border: none;
+}
+ul button .signup {
   color: #fafafa;
 }

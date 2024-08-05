@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/image";
-export default function Navbar() {
+export default function Navbar({ onOpen }) {
   return (
     <header className={styles.navbar}>
       <div className={styles.logo}>
@@ -37,11 +37,11 @@ export default function Navbar() {
               <Link href="/signin">Sign in</Link>
             </li>
           </div>
-          <Link href="/signup">
+          <button className={styles.btn} onClick={onOpen}>
             <div className={styles.signup}>
               <li>Sign up</li>
             </div>
-          </Link>
+          </button>
         </ul>
       </nav>
     </header>

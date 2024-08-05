@@ -1,10 +1,22 @@
+"use client";
 import CustomSelect from "@/components/Inputs/selectFlights";
 import styles from "./page.module.css";
 import Image from "next/image";
 import CookiePopup from "@/components/Cookies/cookies";
-export default function Home({ popup = true }) {
+import Signup from "@/components/Signup/signup";
+import { useContext } from "react";
+import { SignPopContext } from "../components/Header/header";
+export default function Home() {
+  const { popup, setpopup } = useContext(SignPopContext);
   return (
     <>
+      {popup && (
+        <Signup
+          onClose={() => {
+            setpopup(false);
+          }}
+        />
+      )}
       <div className={styles.container}>
         <Image
           src="/heroText.svg"
@@ -31,7 +43,7 @@ export default function Home({ popup = true }) {
         <div className={styles.search}>
           <button>Search</button>
         </div>
-        {popup && <CookiePopup></CookiePopup>}
+        {!popup && <CookiePopup></CookiePopup>}
       </div>
     </>
   );

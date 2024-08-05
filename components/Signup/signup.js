@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "./signup.module.css";
 import LoginWithButton from "./loginwith";
-const Modal = () => {
+const Signup = ({ onClose }) => {
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
         <div className={styles.headercontainer}>
           <div className={styles.header}>
             <h3>Sign up for Tripma</h3>
-            <span className={styles.closeBtn}>&times;</span>
+            <span className={styles.closeBtn} onClick={onClose}>
+              &times;
+            </span>
           </div>
           <p>
             Tripma is totally free to use. Sign up using your email address or
@@ -64,4 +66,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default Signup;
