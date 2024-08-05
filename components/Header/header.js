@@ -8,7 +8,7 @@ import React from "react";
 export const SignPopContext = createContext(null);
 
 export default function Header({ children }) {
-  const [popup, setpopup] = useState(false);
+  const [formpopup, setFormpopup] = useState(false);
   return (
     <div className={styles.header}>
       <div className={styles.firstheader}>
@@ -19,10 +19,10 @@ export default function Header({ children }) {
       </div>
       <Navbar
         onOpen={() => {
-          setpopup(true);
+          setFormpopup(true);
         }}
       />
-      <SignPopContext.Provider value={{ popup, setpopup }}>
+      <SignPopContext.Provider value={{ formpopup, setFormpopup }}>
         {children}
       </SignPopContext.Provider>
     </div>

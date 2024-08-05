@@ -9,7 +9,7 @@ const departureCities = [
   { id: 4, name: "Boston" },
 ];
 
-export default function CustomSelect({ imgpath, text }) {
+export default function CustomSelect({ imgpath, text, width }) {
   const [selectedCity, setSelectedCity] = useState("");
 
   const handleSelectChange = (event) => {
@@ -17,7 +17,7 @@ export default function CustomSelect({ imgpath, text }) {
   };
 
   return (
-    <div className={styles.selectWrapper}>
+    <div className={styles.selectWrapper} style={{ width: width }}>
       <div className={styles.container}>
         <div className={styles.customSelect}>
           <Image
