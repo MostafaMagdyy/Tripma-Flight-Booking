@@ -4,20 +4,11 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import CookiePopup from "@/components/Cookies/cookies";
 import Signup from "@/components/Signup/signup";
-import { useContext, useState } from "react";
-import { SignPopContext } from "../components/Header/header";
+import { useState } from "react";
 export default function Home() {
-  const { formpopup, setFormpopup } = useContext(SignPopContext);
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
     <>
-      {formpopup && (
-        <Signup
-          onClose={() => {
-            setFormpopup(false);
-          }}
-        />
-      )}
       <div className={styles.container}>
         <Image
           src="/heroText.svg"
@@ -27,6 +18,7 @@ export default function Home() {
           className={styles.logo}
         />
       </div>
+      {/* <Date></Date> */}
       <div className={styles.selectcontainer}>
         <CustomSelect
           imgpath={"./departure.svg"}
@@ -51,7 +43,7 @@ export default function Home() {
         <div className={styles.search}>
           <button>Search</button>
         </div>
-        {!formpopup && cookiespopup && (
+        {cookiespopup && (
           <CookiePopup
             onClose={() => {
               setCookiespopup(false);

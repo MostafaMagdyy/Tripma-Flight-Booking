@@ -36,21 +36,17 @@ export default function CustomSelect({ imgpath, text, width }) {
           </span>
         </div>
       </div>
-      {/* <select
+      <select
         className={styles.select}
         value={selectedCity}
         onChange={handleSelectChange}
       >
-        <option value="" disabled hidden>
-          Select a departure city
-        </option>
         {departureCities.map((city) => (
           <option key={city.id} value={city.id}>
             {city.name}
           </option>
         ))}
       </select>
-      <div className={styles.dropdownSpacing}></div> */}
     </div>
   );
 }

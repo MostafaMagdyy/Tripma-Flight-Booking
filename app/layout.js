@@ -5,12 +5,12 @@ export const metadata = {
   description:
     "Book flights with ease using Tripma, your go-to platform for finding the best deals and exploring new destinations. Compare prices, select your preferred airlines, and manage your bookings seamlessly.",
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Header> {children}</Header>
+        <Header> </Header>
+        {children}
       </body>
     </html>
   );

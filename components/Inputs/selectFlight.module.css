@@ -1,3 +1,6 @@
+.selectWrapper {
+  position: relative;
+}
 .container {
   width: 100%;
   border: 1px solid #cbd4e6;
@@ -19,12 +22,12 @@
   color: #888;
 }
 
-/* .select {
+.select {
   appearance: none;
-  border: 2px solid;
   background: none;
   font-size: 16px;
-  padding: 0;
+  padding: 0px 0px 0px 24px;
+  border: 1px solid #cbd4e6;
   color: transparent;
   position: absolute;
   left: 0;
@@ -32,12 +35,17 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+  z-index: 1;
+  opacity: 0;
 }
 
 .select option {
-  color: #000;
+  color: #f6f6fe;
+}
+.select:focus option {
+  background-color: #605dec;
 }
 
 .dropdownSpacing {
   height: 12px;
-} */
+}
