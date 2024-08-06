@@ -8,6 +8,8 @@ import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
 import Footer from "@/components/Footer/footer";
+import CityItem from "@/components/Inputs/cityitem";
+import CityList from "@/components/Inputs/citiylist";
 export default function Home() {
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
@@ -22,27 +24,12 @@ export default function Home() {
             className={styles.logo}
           />
         </div>
-        {/* <Date></Date> */}
+
         <div className={styles.selectcontainer}>
           <CustomSelect
             imgpath={"./departure.svg"}
             text={"From where?"}
             width={"22.5%"}
-          ></CustomSelect>
-          <CustomSelect
-            imgpath={"./arrival.svg"}
-            text={"To where?"}
-            width={"22.5%"}
-          ></CustomSelect>
-          <CustomSelect
-            imgpath={"./calendar.svg"}
-            text={"Depart - Return"}
-            width={"17.5%"}
-          ></CustomSelect>
-          <CustomSelect
-            imgpath={"./person.svg"}
-            text={"1 adult"}
-            width={"13.88%"}
           ></CustomSelect>
           <div className={styles.search}>
             <button>Search</button>

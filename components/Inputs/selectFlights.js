@@ -2,6 +2,7 @@
 import { useState } from "react";
 import styles from "./selectFlight.module.css";
 import Image from "next/image";
+import CityList from "./citiylist";
 const departureCities = [
   { id: 1, name: "San Francisco" },
   { id: 2, name: "Seattle" },
@@ -11,13 +12,16 @@ const departureCities = [
 
 export default function CustomSelect({ imgpath, text, width }) {
   const [selectedCity, setSelectedCity] = useState("");
-
-  const handleSelectChange = (event) => {
-    setSelectedCity(event.target.value);
-  };
-
+  const [showList, setShowList] = useState(false);
+  console.log(showList);
   return (
-    <div className={styles.selectWrapper} style={{ width: width }}>
+    <div
+      className={styles.selectWrapper}
+      style={{ width: width }}
+      onClick={() => {
+        setShowList((prev) => !prev);
+      }}
+    >
       <div className={styles.container}>
         <div className={styles.customSelect}>
           <Image
@@ -36,17 +40,7 @@ export default function CustomSelect({ imgpath, text, width }) {
           </span>
         </div>
       </div>
-      <select
-        className={styles.select}
-        value={selectedCity}
-        onChange={handleSelectChange}
-      >
-        {departureCities.map((city) => (
-          <option key={city.id} value={city.id}>
-            {city.name}
-          </option>
-        ))}
-      </select>
+      {showList && <CityList></CityList>}
     </div>
   );
 }

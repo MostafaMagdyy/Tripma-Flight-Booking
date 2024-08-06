@@ -22,13 +22,7 @@
   color: #888;
 }
 
-.select {
-  appearance: none;
-  background: none;
-  font-size: 16px;
-  padding: 0px 0px 0px 24px;
-  border: 1px solid #cbd4e6;
-  color: transparent;
+.list {
   position: absolute;
   left: 0;
   top: 0;
@@ -36,16 +30,4 @@
   height: 100%;
   cursor: pointer;
   z-index: 1;
-  opacity: 0;
-}
-
-.select option {
-  color: #f6f6fe;
-}
-.select:focus option {
-  background-color: #605dec;
-}
-
-.dropdownSpacing {
-  height: 12px;
 }
