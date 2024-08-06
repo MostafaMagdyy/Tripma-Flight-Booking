@@ -1,6 +1,6 @@
 import styles from "./dateheader.module.css";
-import CustomSelect from "./selectFlights";
-
+import DateSelect from "./dateselect";
+import CustomButton from "../HomePage/button";
 export default function DateHeader() {
   return (
     <div className={styles.container}>
@@ -15,14 +15,10 @@ export default function DateHeader() {
         </div>
       </div>
       <div className={styles.rightSection}>
-        <div className={styles.select}>
-          <CustomSelect
-            imgpath={"./calendar.svg"}
-            text={"Depart - Return"}
-            width={"17.5%"}
-          />
+        <div className={styles.dateselect}>
+          <DateSelect></DateSelect>
         </div>
-        <button className={styles.doneButton}>Done</button>
+        <CustomButton text={"Done"}></CustomButton>
       </div>
     </div>
   );

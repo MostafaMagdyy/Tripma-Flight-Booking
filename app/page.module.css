@@ -1,13 +1,20 @@
 .outercontainer {
-  padding: 8px 0px 160px 0px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 40px;
 }
-.container {
+.imagecontainer {
   padding-top: 50px;
+}
+.imagewandselectcontainer {
+  padding: 8px 0px 160px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 60px;
 }
 .selectcontainer {
   width: 100%;
