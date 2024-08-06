@@ -7,6 +7,7 @@ import { useState } from "react";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
+import Footer from "@/components/Footer/footer";
 export default function Home() {
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
@@ -66,6 +67,7 @@ export default function Home() {
       ></FlightDeals>
       <CustomButton></CustomButton>
       <CommentSection></CommentSection>
+      <Footer></Footer>
     </>
   );
 }
