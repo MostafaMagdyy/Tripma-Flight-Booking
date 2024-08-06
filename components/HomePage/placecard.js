@@ -3,7 +3,7 @@ import styles from "./placecard.module.css";
 
 export default function PlaceCard({
   imageSrc,
-  name,
+  placename,
   city,
   price,
   description,
@@ -23,10 +23,10 @@ export default function PlaceCard({
       <div className={styles.info}>
         <div className={styles.locationpricecontainer}>
           <div className={styles.placeinfocontainer}>
-            <h4 className={styles.country}>{`${name}, `} </h4>
+            <h4 className={styles.country}>{`${placename}, `} </h4>
             <h4 className={styles.city}>{city}</h4>
           </div>
-          <h4 className={styles.price}>{price}</h4>
+          {price && <h4 className={styles.price}>{price}</h4>}
         </div>
         <p className={styles.description}>{description}</p>
       </div>

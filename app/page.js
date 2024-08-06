@@ -5,6 +5,8 @@ import Image from "next/image";
 import CookiePopup from "@/components/Cookies/cookies";
 import { useState } from "react";
 import FlightDeals from "@/components/HomePage/flightdeals";
+import CustomButton from "@/components/HomePage/button";
+import CommentSection from "@/components/HomePage/commentsection";
 export default function Home() {
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
@@ -53,7 +55,17 @@ export default function Home() {
           )}
         </div>
       </div>
-      <FlightDeals></FlightDeals>
+      <FlightDeals
+        description={"  Find your next adventure with these"}
+        type={"flight deals"}
+      ></FlightDeals>
+      <FlightDeals
+        showfull={false}
+        description={"Explore unique"}
+        type={"places to stay"}
+      ></FlightDeals>
+      <CustomButton></CustomButton>
+      <CommentSection></CommentSection>
     </>
   );
 }
