@@ -31,3 +31,11 @@
   cursor: pointer;
   z-index: 1;
 }
+
+.listContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
