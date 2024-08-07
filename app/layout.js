@@ -1,5 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header/header";
+import Footer from "@/components/Footer/footer";
+import FlightContainer from "@/components/Flights/flightscontainer";
 export const metadata = {
   title: "Tripma - Your Ultimate Flight Booking Destination",
   description:
@@ -11,6 +13,7 @@ export default function RootLayout({ children }) {
       <body>
         <Header> </Header>
         {children}
+        <Footer></Footer>
       </body>
     </html>
   );

@@ -16,16 +16,3 @@
   width: 100%;
   gap: 60px;
 }
-.selectcontainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.search button {
-  background-color: #605dec;
-  padding: 17px 25px;
-  border-radius: 4px;
-  border: none;
-  color: #fafafa;
-}

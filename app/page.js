@@ -7,8 +7,8 @@ import { useState } from "react";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
-import Footer from "@/components/Footer/footer";
 import DateInput from "@/components/Inputs/dateinput";
+import SelectionInputs from "@/components/HomePage/selectioninputs";
 export default function Home() {
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
@@ -24,40 +24,14 @@ export default function Home() {
               className={styles.logo}
             />
           </div>
-          <div className={styles.selectcontainer}>
-            <CustomSelect
-              imgpath={"./departure.svg"}
-              text={"From where?"}
-              width={"22.5%"}
-            ></CustomSelect>
-            <CustomSelect
-              imgpath={"./arrival.svg"}
-              text={"To where?"}
-              width={"22.5%"}
-            ></CustomSelect>
-            <DateInput
-              imgpath={"./calendar.svg"}
-              text={"Depart - Return"}
-              width={"17.5%"}
-            ></DateInput>
-            <CustomSelect
-              imgpath={"./person.svg"}
-              text={"1 adult"}
-              width={"13.88%"}
-              type={"person"}
-            ></CustomSelect>
-            <div className={styles.search}>
-              <button>Search</button>
-            </div>
-
-            {cookiespopup && (
-              <CookiePopup
-                onClose={() => {
-                  setCookiespopup(false);
-                }}
-              ></CookiePopup>
-            )}
-          </div>
+          <SelectionInputs></SelectionInputs>
+          {cookiespopup && (
+            <CookiePopup
+              onClose={() => {
+                setCookiespopup(false);
+              }}
+            ></CookiePopup>
+          )}
         </div>
         <FlightDeals
           description={"  Find your next adventure with these"}
@@ -70,7 +44,6 @@ export default function Home() {
         ></FlightDeals>
         <CustomButton></CustomButton>
         <CommentSection></CommentSection>
-        <Footer></Footer>
       </div>
     </>
   );
