@@ -5,7 +5,7 @@ export default function PriceRating() {
   return (
     <div className={styles.container}>
       <div className={styles.priceratingheader}>
-        <h4>Price history</h4>
+        <h4 className={styles.paragraph1}>Price rating</h4>
         <CustomButton
           text="Buy soon"
           padding={{

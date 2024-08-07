@@ -1,7 +1,15 @@
+import React from "react";
+import PropTypes from "prop-types";
 import CustomButton from "../HomePage/button";
 import styles from "./flightcontainer.module.css";
 import FlightItem from "./flightitem";
-export default function FlightContainer() {
+
+export default function FlightContainer({ onSelectFlight }) {
+  const flights = Array.from({ length: 10 }, (_, index) => ({
+    id: `${index + 1}`,
+    price: (index + 1) * 100,
+  }));
+
   return (
     <div className={styles.container}>
       <div className={styles.headercontainer}>
@@ -10,18 +18,13 @@ export default function FlightContainer() {
         </h4>
       </div>
       <div className={styles.flightscontainer}>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
-        <FlightItem></FlightItem>
+        {flights.map((flight) => (
+          <FlightItem
+            key={flight.id}
+            flight={flight}
+            onSelectFlight={onSelectFlight}
+          />
+        ))}
       </div>
       <div className={styles.buttoncontainer}>
         <CustomButton
@@ -35,7 +38,7 @@ export default function FlightContainer() {
           backgroundcolor="white"
           color="#605DEC"
           border="1px solid #605DEC"
-        ></CustomButton>
+        />
       </div>
     </div>
   );

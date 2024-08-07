@@ -1,16 +1,16 @@
 import styles from "./flightitem.module.css";
 import Image from "next/image";
-export default function FlightItem() {
+export default function FlightItem({ flight, onSelectFlight }) {
   const duration = "16h 45m";
   const fromto = "7:00AM - 4.15PM";
   const numofstops = "2 stop";
-  const price = "$624";
+  const price = flight.price;
   const airport = "Hawaiian Airlines";
   const stopinfo = "2h 45m in HNL";
   const triptype = "round trip";
   const image = "./flight.svg";
   return (
-    <div className={styles.flightcontainer}>
+    <div className={styles.flightcontainer} onClick={onSelectFlight}>
       <div className={styles.imagecontainer}>
         <Image src={image} alt="flightimage" width={48} height={48} />
       </div>
