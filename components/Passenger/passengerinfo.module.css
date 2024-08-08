@@ -1,0 +1,52 @@
+.infosection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.inputscontainer {
+  display: flex;
+  gap: 24px;
+}
+.innercontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.container16 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.infosection h4 {
+  color: #6e7491;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.55px;
+}
+.checkboxcontainer {
+  display: flex;
+  align-items: center;
+}
+.checkboxcontainer span {
+  margin-left: 6px;
+  line-height: 21.82px;
+  color: #6e7491;
+}
+.passengerinfobags {
+  display: flex;
+  gap: 242px;
+}
+.container16 .checkedbag h4 {
+  color: #7c8db0;
+}
+.innercontainer .container16 p {
+  font-size: 18px;
+  line-height: 24.55px;
+  color: #7c8db0;
+}
+.highlight {
+  font-size: 18px;
+  line-height: 24.55px;
+  color: #605dec;
+  cursor: pointer;
+}

@@ -9,10 +9,12 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import FlightReservation from "@/components/Flights/flightreservation";
+import PassengerPage from "./passenger";
 export default function FlightsPage() {
   return (
     <>
-      <div className={styles.outercontainer}>
+      <PassengerPage></PassengerPage>
+      {/* <div className={styles.outercontainer}>
         <div className={styles.searchfiltercontainer}>
           <SelectionInputs></SelectionInputs>
           <FilterComponent></FilterComponent>
@@ -28,7 +30,7 @@ export default function FlightsPage() {
           description={"People in"}
           type={"San Francisco"}
         ></FlightDeals>
-      </div>
+      </div> */}
     </>
   );
 }
