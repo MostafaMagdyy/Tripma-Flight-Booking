@@ -10,11 +10,13 @@ import styles from "./page.module.css";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import FlightReservation from "@/components/Flights/flightreservation";
 import PassengerPage from "./passenger";
+import SeatsPage from "./selectseats";
 export default function FlightsPage() {
   return (
     <>
-      <PassengerPage></PassengerPage>
-      {/* <div className={styles.outercontainer}>
+      {/* <SeatsPage></SeatsPage>
+      <PassengerPage></PassengerPage> */}
+      <div className={styles.outercontainer}>
         <div className={styles.searchfiltercontainer}>
           <SelectionInputs></SelectionInputs>
           <FilterComponent></FilterComponent>
@@ -30,7 +32,7 @@ export default function FlightsPage() {
           description={"People in"}
           type={"San Francisco"}
         ></FlightDeals>
-      </div> */}
+      </div>
     </>
   );
 }
