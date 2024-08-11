@@ -6,6 +6,7 @@ export default function SeatDetails({
   passengerNumber,
   passengerName,
   seatNumber,
+  action,
 }) {
   return (
     <div className={styles.detailsContainer}>
@@ -30,13 +31,17 @@ export default function SeatDetails({
           />
         </div>
         <div>
-          <CustomButton
-            padding={{ top: 12, down: 12, left: 20, right: 20 }}
-            text="Next Flight"
-            backgroundcolor="rgba(203, 212, 230, 0.3)"
-            color="#7C8DB0"
-            border="1px solid #7C8DB0"
-          />
+          {seatNumber !== "--" ? (
+            <CustomButton
+              padding={{ top: 12, down: 12, left: 20, right: 20 }}
+              text="Next Flight"
+              backgroundcolor="rgba(203, 212, 230, 0.3)"
+              color="#7C8DB0"
+              border="1px solid #7C8DB0"
+            />
+          ) : (
+            <CustomButton text="Payment method" action={action} />
+          )}
         </div>
       </div>
     </div>

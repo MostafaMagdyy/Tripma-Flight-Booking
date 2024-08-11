@@ -1,11 +1,6 @@
 "use client";
 import FilterComponent from "@/components/Flights/filtercontainer";
-import FlightContainer from "@/components/Flights/flightscontainer";
-import PriceChart from "@/components/Flights/pricechart";
-import PriceGrid from "@/components/Flights/pricegrid";
-import PriceRating from "@/components/Flights/pricerating";
 import SelectionInputs from "@/components/Flights/selectioninputs";
-import Image from "next/image";
 import styles from "./page.module.css";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import FlightReservation from "@/components/Flights/flightreservation";
@@ -13,8 +8,15 @@ import PassengerPage from "./passenger";
 import SeatsPage from "./selectseats";
 import { useState } from "react";
 import PaymentPage from "./payment";
+
+const FLIGHTS_PAGE = "FLIGHTS_PAGE";
+const PASSENGER_PAGE = "PASSENGER_PAGE";
+const SEATS_PAGE = "SEATS_PAGE";
+const PAYMENT_PAGE = "PAYMENT_PAGE";
+const CONFIRMATION_PAGE = "CONFIRMATION_PAGE";
+
 export default function FlightsPage() {
-  const [showPassengerPage, setshowPassengerPage] = useState(false);
+  const [currentPage, setCurrentPage] = useState(FLIGHTS_PAGE);
   const [selectedFlights, setSelectedFlights] = useState([]);
 
   const handleSelectFlight = (flight) => {
@@ -25,12 +27,18 @@ export default function FlightsPage() {
       return [...prevSelectedFlights, flight];
     });
   };
+
   return (
     <>
-      {/* <PaymentPage></PaymentPage> */}
-      {showPassengerPage ? (
-        <PassengerPage selectedFlights={selectedFlights} />
-      ) : (
+      {currentPage === PASSENGER_PAGE && (
+        <PassengerPage
+          selectedFlights={selectedFlights}
+          action={() => {
+            setCurrentPage(SEATS_PAGE);
+          }}
+        />
+      )}
+      {currentPage === FLIGHTS_PAGE && (
         <div className={styles.outercontainer}>
           <div className={styles.searchfiltercontainer}>
             <SelectionInputs />
@@ -38,7 +46,7 @@ export default function FlightsPage() {
           </div>
           <FlightReservation
             action={() => {
-              setshowPassengerPage(true);
+              setCurrentPage(PASSENGER_PAGE);
             }}
             selectedFlights={selectedFlights}
             handleSelectFlight={handleSelectFlight}
@@ -54,6 +62,21 @@ export default function FlightsPage() {
             type={"San Francisco"}
           />
         </div>
+      )}
+      {currentPage === SEATS_PAGE && (
+        <SeatsPage
+          action={() => {
+            setCurrentPage(PAYMENT_PAGE);
+          }}
+        />
+      )}
+      {currentPage === PAYMENT_PAGE && (
+        <PaymentPage
+          selectedFlights={selectedFlights}
+          action={() => {
+            setCurrentPage(CONFIRMATION_PAGE);
+          }}
+        />
       )}
     </>
   );

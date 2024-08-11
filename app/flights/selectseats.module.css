@@ -1,4 +1,33 @@
-.container {
+.outercontainer {
   display: flex;
+  justify-content: center;
   width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.planecontainer {
+  width: 100vw;
+  height: 3000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.bodycontainer {
+  width: 50vw;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.586);
+  z-index: 2;
+  overflow-y: auto;
+}
+
+.seatstype {
+  display: flex;
 }

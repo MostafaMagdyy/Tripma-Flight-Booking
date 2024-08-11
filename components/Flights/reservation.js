@@ -43,6 +43,7 @@ export default function Reservation({
             color="#605DEC
 "
             border="1px solid #605DEC"
+            action={action}
           />
         ) : type === "Flights" && flights.length === 2 ? (
           <CustomButton text="Passenger Inforamtion" action={action} />
@@ -52,6 +53,7 @@ export default function Reservation({
             backgroundcolor={isValid ? "#605dec" : "rgba(203, 212, 230, 0.3)"}
             color={isValid ? "#fafafa" : "#7C8DB0"}
             border={isValid ? "none" : "1px solid #7C8DB0"}
+            action={action}
           />
         )}
       </div>

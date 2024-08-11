@@ -50,8 +50,8 @@
 }
 .iconContainer {
   position: absolute;
-  top: 70px;
-  right: 140px;
+  top: 85px;
+  right: 110px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,33 +1,13 @@
+"use client";
 import styles from "./payment.module.css";
 import PaymentMethod from "@/components/Payment/paymentmethod";
 import CustomInput from "@/components/Inputs/custominput";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import LoginWithButton from "@/components/Signup/loginwith";
 import CustomButton from "@/components/HomePage/button";
 import Reservation from "@/components/Flights/reservation";
 
-const dummyFlights = [
-  {
-    id: 1,
-    airline: "Airline A",
-    departure: "Cairo",
-    destination: "Dubai",
-    time: "10:00 AM",
-    date: "2024-09-10",
-    price: "$350",
-  },
-  {
-    id: 2,
-    airline: "Airline B",
-    departure: "Cairo",
-    destination: "London",
-    time: "3:00 PM",
-    date: "2024-09-12",
-    price: "$550",
-  },
-];
-
-export default function PaymentPage() {
+export default function PaymentPage({ selectedFlights, action }) {
   const [formData, setFormData] = useState({
     cardname: "",
     cardnumber: "",
@@ -38,19 +18,18 @@ export default function PaymentPage() {
   });
   const [isValidPayment, setIsValidPayment] = useState(false);
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedData = { ...prevData, [name]: value };
       validateForm(updatedData);
       return updatedData;
     });
-  }
+  };
 
-  function validateForm(data) {
+  const validateForm = (data) => {
     const { cardname, cardnumber, expiredate, ccvnumber, email, password } =
       data;
-
     const isCardNumberValid = /^\d{16}$/.test(cardnumber);
     const isCCVValid = /^\d{3}$/.test(ccvnumber);
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -65,9 +44,8 @@ export default function PaymentPage() {
       isCCVValid &&
       isEmailValid &&
       isPasswordEntered;
-
     setIsValidPayment(isValid);
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -193,11 +171,8 @@ export default function PaymentPage() {
               change your flight up to 30 days before the departure date, you
               are eligible for a free refund. All flights booked on Tripma are
               backed by our satisfaction guarantee; however, cancellation
-              policies vary by airline. See the
-              <span className={styles.highlight}>
-                {" "}
-                full cancellation policy{" "}
-              </span>
+              policies vary by airline. See the{" "}
+              <span className={styles.highlight}>full cancellation policy</span>{" "}
               for this flight.
             </p>
           </div>
@@ -215,20 +190,18 @@ export default function PaymentPage() {
               }
               color={isValidPayment ? "#fafafa" : "#7C8DB0"}
               border={isValidPayment ? "none" : "1px solid #7C8DB0"}
-              onClick={() => {
-                if (isValidPayment) {
-                }
-              }}
+              action={action}
               disabled={!isValidPayment}
             />
           </div>
         </div>
         <div>
           <Reservation
-            flights={dummyFlights}
+            flights={selectedFlights}
             type="passenger"
             isValid={isValidPayment}
             text={"Confirm and pay"}
+            action={action}
           />
         </div>
       </div>
