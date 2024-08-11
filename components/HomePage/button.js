@@ -6,6 +6,7 @@ export default function CustomButton({
   backgroundcolor = "#605dec",
   color = "#fafafa",
   border = "none",
+  action,
 }) {
   const buttonStyle = {
     paddingTop: `${padding.top}px`,
@@ -18,7 +19,7 @@ export default function CustomButton({
   };
 
   return (
-    <button className={styles.button} style={buttonStyle}>
+    <button className={styles.button} style={buttonStyle} onClick={action}>
       {text}
     </button>
   );

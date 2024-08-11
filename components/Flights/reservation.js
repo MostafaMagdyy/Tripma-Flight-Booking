@@ -3,29 +3,13 @@ import SelectedFlight from "./selectedflight";
 import Prices from "./prices";
 import CustomButton from "../HomePage/button";
 import styles from "./reservation.module.css";
-// export const dummyFlights = [
-//   {
-//     price: "$350",
-//     duration: "10h 20m",
-//     fromto: "8:00AM - 6:20PM",
-//     numofstops: "1 stop",
-//     airport: "Delta Airlines",
-//     stopinfo: "1h 30m in ATL",
-//     triptype: "one-way",
-//     image: "flight.svg",
-//   },
-//   {
-//     price: "$450",
-//     duration: "12h 15m",
-//     fromto: "9:00AM - 9:15PM",
-//     numofstops: "2 stops",
-//     airport: "United Airlines",
-//     stopinfo: "2h 15m in ORD",
-//     triptype: "round trip",
-//     image: "flight.svg",
-//   },
-// ];
-export default function Reservation({ flights, type = "Flights", isValid }) {
+
+export default function Reservation({
+  flights,
+  type = "Flights",
+  isValid,
+  action,
+}) {
   const calculateSubtotal = () => {
     return flights.reduce((acc, flight) => acc + flight.price, 0);
   };
@@ -60,7 +44,7 @@ export default function Reservation({ flights, type = "Flights", isValid }) {
             border="1px solid #605DEC"
           />
         ) : type === "Flights" && flights.length === 2 ? (
-          <CustomButton text="Passenger Inforamtion" />
+          <CustomButton text="Passenger Inforamtion" action={action} />
         ) : (
           <CustomButton
             text="Select seats"

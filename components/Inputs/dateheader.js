@@ -7,11 +7,11 @@ export default function DateHeader() {
       <div className={styles.leftSection}>
         <div className={styles.checkboxcontainer}>
           <input type="checkbox" id="Oneway" name="option1" />
-          <span style={styles.checkboxLabel}>Oneway</span>
+          <span style={styles.checkboxLabel}>Round trip</span>
         </div>
         <div className={styles.checkboxcontainer}>
           <input type="checkbox" id="Round" name="option1" />
-          <span style={styles.checkboxLabel}>Round</span>
+          <span style={styles.checkboxLabel}>Oneway</span>
         </div>
       </div>
       <div className={styles.rightSection}>

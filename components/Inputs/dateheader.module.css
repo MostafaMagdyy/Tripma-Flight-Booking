@@ -10,6 +10,7 @@
 .rightSection {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 .leftSection {
   gap: 16px;

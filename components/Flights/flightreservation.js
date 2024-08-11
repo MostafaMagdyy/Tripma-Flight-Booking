@@ -7,18 +7,11 @@ import Reservation from "@/components/Flights/reservation";
 import Image from "next/image";
 import styles from "./flightreservation.module.css";
 
-export default function FlightReservation() {
-  const [selectedFlights, setSelectedFlights] = useState([]);
-
-  const handleSelectFlight = (flight) => {
-    console.log("das");
-    setSelectedFlights((prevSelectedFlights) => {
-      if (prevSelectedFlights.length >= 2) {
-        return prevSelectedFlights;
-      }
-      return [...prevSelectedFlights, flight];
-    });
-  };
+export default function FlightReservation({
+  action,
+  selectedFlights,
+  handleSelectFlight,
+}) {
   return (
     <div className={styles.flightpricesinfo}>
       <div className={styles.flightsinfo}>
@@ -35,7 +28,7 @@ export default function FlightReservation() {
             <PriceRating />
           </>
         ) : (
-          <Reservation flights={selectedFlights} />
+          <Reservation flights={selectedFlights} action={action} />
         )}
       </div>
     </div>

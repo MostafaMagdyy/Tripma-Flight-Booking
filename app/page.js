@@ -7,9 +7,8 @@ import { useState } from "react";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
-import DateInput from "@/components/Inputs/dateinput";
 import SelectionInputs from "@/components/HomePage/selectioninputs";
-export default function Home() {
+export default function HomePage() {
   const [cookiespopup, setCookiespopup] = useState(true);
   return (
     <>

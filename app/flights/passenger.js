@@ -6,8 +6,7 @@ import PassengerInfo from "@/components/Passenger/passengerinfo";
 import CustomButton from "@/components/HomePage/button";
 import Reservation from "@/components/Flights/reservation";
 import Image from "next/image";
-
-export default function PassengerPage() {
+export default function PassengerPage({ selectedFlights }) {
   const [isValid, setIsValid] = useState(false);
 
   return (
@@ -34,7 +33,11 @@ export default function PassengerPage() {
       </div>
 
       <div className={styles.rightcontainer}>
-        <Reservation flights={[]} type="Passenger" isValid={isValid} />
+        <Reservation
+          flights={selectedFlights}
+          type="Passenger"
+          isValid={isValid}
+        />
         <div className={styles.Imagecontainer}>
           <Image src="./Bag.svg" alt="bag icon" width={382} height={525} />
         </div>

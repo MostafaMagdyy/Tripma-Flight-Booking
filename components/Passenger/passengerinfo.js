@@ -44,7 +44,9 @@ export default function PassengerInfo({ setValid }) {
 
     const isValidCheckedBags =
       Number.isInteger(formData.checkedBags) && formData.checkedBags >= 0;
-
+    console.log(
+      isValidPassengerInfo && isValidEmergencyContact && isValidCheckedBags
+    );
     return (
       isValidPassengerInfo && isValidEmergencyContact && isValidCheckedBags
     );
