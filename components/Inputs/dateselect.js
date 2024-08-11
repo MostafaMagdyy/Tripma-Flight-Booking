@@ -1,13 +1,22 @@
 import styles from "./dateselect.module.css";
 import Image from "next/image";
-export default function DateSelect() {
+export default function DateSelect({ startDate, endDate }) {
+  const formatDateRange = (start, end) => {
+    if (start && end) {
+      const startFormatted = start.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+      const endFormatted = end.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+      return `${startFormatted} - ${endFormatted}`;
+    }
+    return "Depart - Return";
+  };
   return (
-    <div
-      className={styles.selectWrapper}
-      // onClick={() => {
-      //   setShowList((prev) => !prev);
-      // }}
-    >
+    <div className={styles.selectWrapper}>
       <div className={styles.container}>
         <div className={styles.customSelect}>
           <Image
@@ -17,7 +26,9 @@ export default function DateSelect() {
             width={32}
             height={32}
           />
-          <span className={styles.placeholder}>Depart - Return</span>
+          <span className={styles.placeholder}>
+            {formatDateRange(startDate, endDate)}
+          </span>
         </div>
       </div>
     </div>

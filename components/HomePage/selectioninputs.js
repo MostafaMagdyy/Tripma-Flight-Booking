@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import CustomSelect from "../Inputs/selectFlights";
 import DateInput from "../Inputs/dateinput";
 import styles from "./selectioninputs.module.css";
@@ -25,6 +27,15 @@ const arrivalCities = [
 ];
 
 export default function SelectionInputs() {
+  const [selectedDates, setSelectedDates] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
+  const handleDateChange = (startDate, endDate) => {
+    setSelectedDates({ startDate, endDate });
+  };
+
   return (
     <div className={styles.selectcontainer}>
       <CustomSelect
@@ -43,6 +54,8 @@ export default function SelectionInputs() {
         imgpath={"./calendar.svg"}
         text={"Depart - Return"}
         width={"17.5%"}
+        selectedDates={selectedDates}
+        onDateChange={handleDateChange}
       />
       <CustomSelect
         imgpath={"./person.svg"}
