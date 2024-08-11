@@ -60,7 +60,6 @@ export default function PassengerInfo({ setValid }) {
 
   return (
     <div className={styles.infosection}>
-      {/* Passenger Info */}
       <h4>Passenger 1 (Adult)</h4>
       <div className={styles.innercontainer}>
         <div className={styles.infosection}>
@@ -147,8 +146,8 @@ export default function PassengerInfo({ setValid }) {
       <div className={styles.infosection}>
         <h4>Emergency contact information</h4>
         <div className={styles.checkboxcontainer}>
-          <input type="checkbox" id="checkbox" name="checkbox" />
-          <span style={styles.checkboxLabel}>Same as Passenger 1</span>
+          <input type="checkbox" id="save-card-checkbox" name="checkbox" />
+          <label htmlFor="save-card-checkbox">Same as Passenger 1</label>
         </div>
         <div className={styles.inputscontainer}>
           <CustomInput
@@ -206,7 +205,8 @@ export default function PassengerInfo({ setValid }) {
             </div>
             <Counter
               ok={true}
-              onCountChange={(newCount) =>
+              count={formData.checkedBags}
+              setCount={(newCount) =>
                 setFormData({ ...formData, checkedBags: newCount })
               }
             />

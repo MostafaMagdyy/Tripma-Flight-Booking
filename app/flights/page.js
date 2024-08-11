@@ -12,7 +12,7 @@ import FlightReservation from "@/components/Flights/flightreservation";
 import PassengerPage from "./passenger";
 import SeatsPage from "./selectseats";
 import { useState } from "react";
-
+import PaymentPage from "./payment";
 export default function FlightsPage() {
   const [showPassengerPage, setshowPassengerPage] = useState(false);
   const [selectedFlights, setSelectedFlights] = useState([]);
@@ -27,6 +27,7 @@ export default function FlightsPage() {
   };
   return (
     <>
+      {/* <PaymentPage></PaymentPage> */}
       {showPassengerPage ? (
         <PassengerPage selectedFlights={selectedFlights} />
       ) : (

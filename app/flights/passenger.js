@@ -37,6 +37,7 @@ export default function PassengerPage({ selectedFlights }) {
           flights={selectedFlights}
           type="Passenger"
           isValid={isValid}
+          text={"Select seats"}
         />
         <div className={styles.Imagecontainer}>
           <Image src="./Bag.svg" alt="bag icon" width={382} height={525} />

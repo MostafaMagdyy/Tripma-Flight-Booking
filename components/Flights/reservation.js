@@ -9,6 +9,7 @@ export default function Reservation({
   type = "Flights",
   isValid,
   action,
+  text,
 }) {
   const calculateSubtotal = () => {
     return flights.reduce((acc, flight) => acc + flight.price, 0);
@@ -47,7 +48,7 @@ export default function Reservation({
           <CustomButton text="Passenger Inforamtion" action={action} />
         ) : (
           <CustomButton
-            text="Select seats"
+            text={text}
             backgroundcolor={isValid ? "#605dec" : "rgba(203, 212, 230, 0.3)"}
             color={isValid ? "#fafafa" : "#7C8DB0"}
             border={isValid ? "none" : "1px solid #7C8DB0"}
