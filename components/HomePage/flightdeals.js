@@ -22,6 +22,13 @@ function TextComponent({ normaltext, specialtext }) {
     </div>
   );
 }
+function HotelComponent({ text }) {
+  return (
+    <div>
+      <h4 className={styles.text}>{text}</h4>
+    </div>
+  );
+}
 
 export default function FlightDeals({
   showfull = true,
@@ -32,6 +39,8 @@ export default function FlightDeals({
   const renderedelement =
     type === "FLIGHTS" ? (
       <NamePriceComponent placename="The Bund" city="Shanghai" price="$598" />
+    ) : type === "HOTEL" ? (
+      <HotelComponent text={"Hotel Kaneyamaen and Bessho SASA"} />
     ) : (
       <TextComponent
         normaltext="Stay among the atolls in"

@@ -1,14 +1,13 @@
 "use client";
-import FilterComponent from "@/components/Flights/filtercontainer";
-import SelectionInputs from "@/components/Flights/selectioninputs";
 import styles from "./page.module.css";
-import FlightDeals from "@/components/HomePage/flightdeals";
-import FlightReservation from "@/components/Flights/flightreservation";
 import PassengerPage from "./passenger";
 import SeatsPage from "./selectseats";
 import { useState } from "react";
 import PaymentPage from "./payment";
 import ConfirmationPage from "./confirmation";
+import Flights from "./flights";
+import Header from "@/components/Header/header";
+import Footer from "@/components/Footer/footer";
 
 const FLIGHTS_PAGE = "FLIGHTS_PAGE";
 const PASSENGER_PAGE = "PASSENGER_PAGE";
@@ -17,7 +16,7 @@ const PAYMENT_PAGE = "PAYMENT_PAGE";
 const CONFIRMATION_PAGE = "CONFIRMATION_PAGE";
 
 export default function FlightsPage() {
-  const [currentPage, setCurrentPage] = useState(CONFIRMATION_PAGE);
+  const [currentPage, setCurrentPage] = useState(FLIGHTS_PAGE);
   const [selectedFlights, setSelectedFlights] = useState([]);
 
   const handleSelectFlight = (flight) => {
@@ -31,9 +30,9 @@ export default function FlightsPage() {
 
   return (
     <>
-      {currentPage === CONFIRMATION_PAGE && (
-        <ConfirmationPage></ConfirmationPage>
-      )}
+      {currentPage !== SEATS_PAGE && <Header />}
+
+      {currentPage === CONFIRMATION_PAGE && <ConfirmationPage />}
       {currentPage === PASSENGER_PAGE && (
         <PassengerPage
           selectedFlights={selectedFlights}
@@ -43,29 +42,13 @@ export default function FlightsPage() {
         />
       )}
       {currentPage === FLIGHTS_PAGE && (
-        <div className={styles.outercontainer}>
-          <div className={styles.searchfiltercontainer}>
-            <SelectionInputs />
-            <FilterComponent />
-          </div>
-          <FlightReservation
-            action={() => {
-              setCurrentPage(PASSENGER_PAGE);
-            }}
-            selectedFlights={selectedFlights}
-            handleSelectFlight={handleSelectFlight}
-          />
-          <FlightDeals
-            showfull={false}
-            description={"Find your next adventure with these"}
-            type={"flight deals"}
-          />
-          <FlightDeals
-            showfull={false}
-            description={"People in"}
-            type={"San Francisco"}
-          />
-        </div>
+        <Flights
+          action={() => {
+            setCurrentPage(PASSENGER_PAGE);
+          }}
+          selectedFlights={selectedFlights}
+          handleSelectFlight={handleSelectFlight}
+        />
       )}
       {currentPage === SEATS_PAGE && (
         <SeatsPage
@@ -82,6 +65,8 @@ export default function FlightsPage() {
           }}
         />
       )}
+
+      {currentPage !== SEATS_PAGE && <Footer />}
     </>
   );
 }

@@ -31,7 +31,7 @@ export default function SeatDetails({
           />
         </div>
         <div>
-          {seatNumber !== "--" ? (
+          {seatNumber === "--" ? (
             <CustomButton
               padding={{ top: 12, down: 12, left: 20, right: 20 }}
               text="Next Flight"

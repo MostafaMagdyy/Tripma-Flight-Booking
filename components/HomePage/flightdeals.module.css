@@ -72,7 +72,8 @@
   gap: 4px;
 }
 .normaltext,
-.specialtext {
+.specialtext,
+.text {
   font-weight: 600;
   line-height: 24.55px;
   font-size: 18px;
@@ -84,4 +85,7 @@
 .specialtext {
   color: #5cd6c0;
   cursor: pointer;
+}
+.text {
+  color: #605dec;
 }

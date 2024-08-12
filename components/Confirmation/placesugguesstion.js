@@ -1,6 +1,7 @@
 import CustomButton from "../HomePage/button";
 import styles from "./placesugguesstion.module.css";
 import PlaceCard from "../HomePage/placecard";
+
 export default function PlaceSuggestion() {
   return (
     <div className={styles.container}>

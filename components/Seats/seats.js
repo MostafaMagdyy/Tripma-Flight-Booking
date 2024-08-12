@@ -107,7 +107,6 @@ const Seats = ({ selectedSeat, onSeatClick }) => {
         selectedSeat={selectedSeat}
         onSeatClick={onSeatClick}
       />
-      <div>Selected Seat: {selectedSeat}</div>
     </div>
   );
 };

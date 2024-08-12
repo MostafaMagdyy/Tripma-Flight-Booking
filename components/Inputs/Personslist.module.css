@@ -1,6 +1,7 @@
 .container {
   padding-left: 24px;
   border: none;
+  background-color: white;
   width: 256px;
   z-index: 5;
 }
