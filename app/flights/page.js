@@ -8,6 +8,7 @@ import PassengerPage from "./passenger";
 import SeatsPage from "./selectseats";
 import { useState } from "react";
 import PaymentPage from "./payment";
+import ConfirmationPage from "./confirmation";
 
 const FLIGHTS_PAGE = "FLIGHTS_PAGE";
 const PASSENGER_PAGE = "PASSENGER_PAGE";
@@ -16,7 +17,7 @@ const PAYMENT_PAGE = "PAYMENT_PAGE";
 const CONFIRMATION_PAGE = "CONFIRMATION_PAGE";
 
 export default function FlightsPage() {
-  const [currentPage, setCurrentPage] = useState(FLIGHTS_PAGE);
+  const [currentPage, setCurrentPage] = useState(CONFIRMATION_PAGE);
   const [selectedFlights, setSelectedFlights] = useState([]);
 
   const handleSelectFlight = (flight) => {
@@ -30,6 +31,9 @@ export default function FlightsPage() {
 
   return (
     <>
+      {currentPage === CONFIRMATION_PAGE && (
+        <ConfirmationPage></ConfirmationPage>
+      )}
       {currentPage === PASSENGER_PAGE && (
         <PassengerPage
           selectedFlights={selectedFlights}

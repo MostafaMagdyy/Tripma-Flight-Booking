@@ -4,7 +4,7 @@ export default function FlightItem({ flight, onSelectFlight }) {
   const duration = "16h 45m";
   const fromto = "7:00AM - 4.15PM";
   const numofstops = "2 stop";
-  const price = flight.price;
+  const price = "512$";
   const airport = "Hawaiian Airlines";
   const stopinfo = "2h 45m in HNL";
   const triptype = "round trip";
