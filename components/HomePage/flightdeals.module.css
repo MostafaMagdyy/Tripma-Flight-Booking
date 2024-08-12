@@ -46,3 +46,42 @@
   gap: 40px;
   width: 100%;
 }
+
+.locationpricecontainer {
+  display: flex;
+  justify-content: space-between;
+}
+.placeinfocontainer {
+  display: flex;
+  gap: 2px;
+}
+.locationpricecontainer .placeinfocontainer h4 {
+  line-height: 24.55px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.country,
+.price {
+  color: #6e7491;
+}
+.city {
+  color: #605dec;
+}
+.textonly {
+  display: flex;
+  gap: 4px;
+}
+.normaltext,
+.specialtext {
+  font-weight: 600;
+  line-height: 24.55px;
+  font-size: 18px;
+}
+
+.normaltext {
+  color: #6e7491;
+}
+.specialtext {
+  color: #5cd6c0;
+  cursor: pointer;
+}

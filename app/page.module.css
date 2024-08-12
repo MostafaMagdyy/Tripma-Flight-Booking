@@ -16,3 +16,27 @@
   width: 100%;
   gap: 60px;
 }
+.leftdescription {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.normalheader,
+.sepcialheader1,
+.specialheader2 {
+  font-size: 24px;
+  line-height: 32.74px;
+  font-weight: 700;
+}
+.normalheader {
+  color: #6e7491;
+}
+.sepcialheader1 {
+  color: #605dec;
+  cursor: pointer;
+}
+.specialheader2 {
+  color: #5cd6c0;
+  cursor: pointer;
+}

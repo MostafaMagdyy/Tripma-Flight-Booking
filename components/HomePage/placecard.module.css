@@ -16,27 +16,6 @@
   flex-direction: column;
   gap: 4px;
 }
-.placeinfocontainer {
-  display: flex;
-  gap: 2px;
-}
-
-.locationpricecontainer {
-  display: flex;
-  justify-content: space-between;
-}
-.info .locationpricecontainer h4 {
-  line-height: 24.55px;
-  font-size: 18px;
-  font-weight: 600;
-}
-.country,
-.price {
-  color: #6e7491;
-}
-.city {
-  color: #605dec;
-}
 .description {
   line-height: 21.82px;
   color: #7c8db0;
