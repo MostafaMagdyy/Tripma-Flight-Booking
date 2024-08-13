@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import Image from "next/image";
 import CookiePopup from "@/components/Cookies/cookies";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
@@ -27,6 +27,13 @@ function FlightDealsHeader2() {
 }
 export default function HomePage() {
   const [cookiespopup, setCookiespopup] = useState(true);
+  useEffect(() => {
+    fetch("/api/users")
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  }, []);
+
   return (
     <>
       <div className={styles.outercontainer}>
