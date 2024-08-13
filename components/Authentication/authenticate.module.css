@@ -86,7 +86,10 @@
   font-size: 18px;
   color: #7c8db0;
 }
-
+.error {
+  font-size: 16px;
+  color: red;
+}
 .or::before,
 .or::after {
   content: "";

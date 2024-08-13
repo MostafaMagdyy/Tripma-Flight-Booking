@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import "./globals.css";
 import Header from "@/components/Header/header";
 import Footer from "@/components/Footer/footer";
+import { SessionProvider } from "next-auth/react";
 
 // export const metadata = {
 //   title: "Tripma - Your Ultimate Flight Booking Destination",
@@ -17,9 +18,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {!isFlightsPage && <Header />}
-        {children}
-        {!isFlightsPage && <Footer />}
+        <SessionProvider>
+          {!isFlightsPage && <Header />}
+          {children}
+          {!isFlightsPage && <Footer />}
+        </SessionProvider>
       </body>
     </html>
   );

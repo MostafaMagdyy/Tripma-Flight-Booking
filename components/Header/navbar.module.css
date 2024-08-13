@@ -40,6 +40,7 @@
 }
 .btn {
   border: none;
+  cursor: pointer;
 }
 ul button .signup {
   color: #fafafa;

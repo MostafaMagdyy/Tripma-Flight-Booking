@@ -3,7 +3,7 @@ import styles from "./payment.module.css";
 import PaymentMethod from "@/components/Payment/paymentmethod";
 import CustomInput from "@/components/Inputs/custominput";
 import { useState } from "react";
-import LoginWithButton from "@/components/Signup/loginwith";
+import LoginWithButton from "@/components/Authentication/loginwith";
 import CustomButton from "@/components/HomePage/button";
 import Reservation from "@/components/Flights/reservation";
 

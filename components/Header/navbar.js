@@ -1,7 +1,11 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-export default function Navbar({ onOpen }) {
+export default function Navbar({ onOpen, setMode }) {
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
+
   return (
     <header className={styles.navbar}>
       <div className={styles.logo}>
@@ -32,16 +36,40 @@ export default function Navbar({ onOpen }) {
               <Link href="/packages">Packages</Link>
             </li>
           </div>
-          <div className={styles.outerdiv}>
-            <li className={styles.navItem}>
-              <Link href="/signin">Sign in</Link>
-            </li>
-          </div>
-          <button className={styles.btn} onClick={onOpen}>
-            <div className={styles.signup}>
-              <li>Sign up</li>
+          {!loading && session && (
+            <div className={styles.outerdiv}>
+              <li className={styles.navItem}>
+                <Link href="/packages">Your Trips</Link>
+              </li>
             </div>
-          </button>
+          )}
+          {!loading && !session && (
+            <>
+              {" "}
+              <button
+                className={styles.btn}
+                onClick={() => {
+                  onOpen();
+                  setMode("SIGNIN");
+                }}
+              >
+                <div className={styles.signup}>
+                  <li>Sign In</li>
+                </div>
+              </button>
+              <button
+                className={styles.btn}
+                onClick={() => {
+                  onOpen();
+                  setMode("SIGNUP");
+                }}
+              >
+                <div className={styles.signup}>
+                  <li>Sign up</li>
+                </div>
+              </button>
+            </>
+          )}
         </ul>
       </nav>
     </header>

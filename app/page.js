@@ -27,12 +27,6 @@ function FlightDealsHeader2() {
 }
 export default function HomePage() {
   const [cookiespopup, setCookiespopup] = useState(true);
-  useEffect(() => {
-    fetch("/api/users")
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Error:", error));
-  }, []);
 
   return (
     <>

@@ -3,15 +3,17 @@ import Navbar from "./navbar";
 import styles from "./header.module.css";
 import { useState, createContext } from "react";
 
-import Signup from "../Signup/signup";
+import Authentication from "../Authentication/authenticate";
 import React from "react";
 
 export default function Header({ children }) {
   const [formpopup, setFormpopup] = useState(false);
+  const [mode, setMode] = useState("");
   return (
     <>
       {formpopup && (
-        <Signup
+        <Authentication
+          mode={mode}
           onClose={() => {
             setFormpopup(false);
           }}
@@ -28,6 +30,7 @@ export default function Header({ children }) {
           onOpen={() => {
             setFormpopup(true);
           }}
+          setMode={setMode}
         />
         {children}
       </div>
