@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node prisma/seed.js"
+    "seed1": "node prisma/flightseed.js",
+    "seed2": "node prisma/seatsseed.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",

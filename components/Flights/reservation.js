@@ -11,7 +11,6 @@ export default function Reservation({
   action,
   text,
 }) {
-  console.log("from prices", flights);
   const calculateSubtotal = () => {
     return flights.reduce((acc, flight) => acc + flight.subtotalPrice, 0);
   };

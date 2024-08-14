@@ -15,8 +15,6 @@ const CONFIRMATION_PAGE = "CONFIRMATION_PAGE";
 export default function BookingPage() {
   const [currentPage, setCurrentPage] = useState(PASSENGER_PAGE);
   const [selectedFlights, setSelectedFlights] = useState([]);
-
-  // State to manage passenger info
   const [formPassengerInfo, setFormPassengerInfo] = useState({
     firstname: "",
     middle: "",
@@ -70,6 +68,8 @@ export default function BookingPage() {
           action={() => {
             setCurrentPage(PAYMENT_PAGE);
           }}
+          selectedFlights={selectedFlights}
+          passengerName={`${formPassengerInfo.firstname} ${formPassengerInfo.lastname}`}
         />
       )}
       {currentPage === PAYMENT_PAGE && (

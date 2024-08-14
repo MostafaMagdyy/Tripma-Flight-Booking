@@ -20,7 +20,7 @@ export default function PassengerPage({
       <div className={styles.leftcontainer}>
         <div className={styles.passengercontainer}>
           <PassengerHeader />
-          <PassengerInfo
+        <PassengerInfo
             setValid={setIsValid}
             formPassengerInfo={formPassengerInfo}
             setFormPassengerInfo={setFormPassengerInfo}
