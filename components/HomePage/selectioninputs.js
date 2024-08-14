@@ -15,6 +15,8 @@ export default function SelectionInputs({
   maxPriceFilter = null,
   airline = null,
   times = null,
+  setDepartingFlights,
+  setArrivingFlights,
 }) {
   const router = useRouter();
   const [selectedDates, setSelectedDates] = useState({
@@ -58,19 +60,17 @@ export default function SelectionInputs({
     };
 
     const currentPath = window.location.pathname;
-    if (currentPath === "/search") {
+    if (currentPath === "/flights") {
       try {
+        console.log("I am here");
         const queryParams = new URLSearchParams(searchParams).toString();
         const response = await fetch(`/api/flights?${queryParams}`);
         const result = await response.json();
         if (!response.ok) {
           throw new Error(result.message || "Failed to fetch flights");
         }
-        if (type) {
-          setDepartingFlights(result.departingFlights || []);
-        } else {
-          setArrivingFlights(result.arrivingFlights || []);
-        }
+        setDepartingFlights(result.departingFlights || []);
+        setArrivingFlights(result.arrivingFlights || []);
       } catch (error) {
         console.error("Search error:", error);
       }
