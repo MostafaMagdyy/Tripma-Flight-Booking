@@ -14,7 +14,7 @@ export default function SelectionInputs({
   minors = 0,
   maxPriceFilter = null,
   airline = null,
-  Times = null,
+  times = null,
 }) {
   const router = useRouter();
   const [selectedDates, setSelectedDates] = useState({
@@ -33,7 +33,7 @@ export default function SelectionInputs({
     justifyContent: toCity ? "flex-start" : "center",
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     console.log(selectedCityFrom, selectedCityTo, selectedDates, adultsCount);
     if (
       !selectedCityFrom ||
@@ -43,6 +43,7 @@ export default function SelectionInputs({
     ) {
       return;
     }
+
     const searchParams = {
       fromCity: selectedCityFrom,
       toCity: selectedCityTo,
@@ -50,11 +51,35 @@ export default function SelectionInputs({
       endDate: selectedDates.endDate,
       adults: adultsCount,
       minors: minorsCount,
+      maxPriceFilter,
+      airline,
+      times,
       type,
     };
-    localStorage.setItem("searchParams", JSON.stringify(searchParams));
-    router.push("/flights");
+
+    const currentPath = window.location.pathname;
+    if (currentPath === "/search") {
+      try {
+        const queryParams = new URLSearchParams(searchParams).toString();
+        const response = await fetch(`/api/flights?${queryParams}`);
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message || "Failed to fetch flights");
+        }
+        if (type) {
+          setDepartingFlights(result.departingFlights || []);
+        } else {
+          setArrivingFlights(result.arrivingFlights || []);
+        }
+      } catch (error) {
+        console.error("Search error:", error);
+      }
+    } else {
+      localStorage.setItem("searchParams", JSON.stringify(searchParams));
+      router.push("/flights");
+    }
   };
+
   useEffect(() => {
     async function fetchCities() {
       try {

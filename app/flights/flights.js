@@ -108,11 +108,11 @@ export default function Flights({ action }) {
           minors={searchParams.minors}
           startDate={searchParams.startDate}
           endDate={searchParams.endDate}
-          setSearchParams={setSearchParams}
-          searchparams={searchParams}
           maxPriceFilter={selectedPrice}
           airline={selectedAirlines}
           times={selectedTimes}
+          setArrivingFlights={setArrivingFlights}
+          setDepartingFlights={setDepartingFlights}
         ></SelectionInputs>
         <FilterComponent
           departingFlights={departingFlights}
