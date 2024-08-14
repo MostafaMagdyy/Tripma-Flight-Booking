@@ -4,49 +4,44 @@ import Counter from "../Inputs/counter";
 import CustomInput from "../Inputs/custominput";
 import styles from "./passengerinfo.module.css";
 
-export default function PassengerInfo({ setValid }) {
-  const [formData, setFormData] = useState({
-    firstname: "",
-    middle: "",
-    lastname: "",
-    suffix: "",
-    birthDate: "",
-    email: "",
-    phonenumber: "",
-    redressnumber: "",
-    travellernumber: "",
-    emergencyfirstname: "",
-    emergencylastname: "",
-    emergencyemail: "",
-    emergencyphonenumber: "",
-    checkedBags: 0,
-  });
-
+export default function PassengerInfo({
+  setValid,
+  formPassengerInfo,
+  setFormPassengerInfo,
+  isSameAsPassenger,
+  setIsSameAsPassenger,
+}) {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
-    setFormData({ ...formData, [name]: value });
+    setFormPassengerInfo({ ...formPassengerInfo, [name]: value });
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsSameAsPassenger(e.target.checked);
   };
 
   const validateForm = () => {
     const isValidPassengerInfo =
-      formData.firstname !== "" &&
-      formData.lastname !== "" &&
-      formData.birthDate !== "" &&
-      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email) &&
-      /^[0-9]{11,11}$/.test(formData.phonenumber);
+      formPassengerInfo.firstname !== "" &&
+      formPassengerInfo.lastname !== "" &&
+      formPassengerInfo.birthDate !== "" &&
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formPassengerInfo.email) &&
+      /^[0-9]{11,11}$/.test(formPassengerInfo.phonenumber) &&
+      formPassengerInfo.travellernumber !== "";
 
     const isValidEmergencyContact =
-      formData.emergencyfirstname !== "" &&
-      formData.emergencylastname !== "" &&
-      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.emergencyemail) &&
-      /^[0-9]{11,11}$/.test(formData.emergencyphonenumber);
+      isSameAsPassenger ||
+      (formPassengerInfo.emergencyfirstname !== "" &&
+        formPassengerInfo.emergencylastname !== "" &&
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+          formPassengerInfo.emergencyemail
+        ) &&
+        /^[0-9]{11,11}$/.test(formPassengerInfo.emergencyphonenumber));
 
     const isValidCheckedBags =
-      Number.isInteger(formData.checkedBags) && formData.checkedBags >= 0;
-    console.log(
-      isValidPassengerInfo && isValidEmergencyContact && isValidCheckedBags
-    );
+      Number.isInteger(formPassengerInfo.checkedBags) &&
+      formPassengerInfo.checkedBags >= 0;
+
     return (
       isValidPassengerInfo && isValidEmergencyContact && isValidCheckedBags
     );
@@ -54,9 +49,8 @@ export default function PassengerInfo({ setValid }) {
 
   useEffect(() => {
     const formIsValid = validateForm();
-    console.log(formIsValid);
     setValid(formIsValid);
-  }, [formData]);
+  }, [formPassengerInfo, isSameAsPassenger]);
 
   return (
     <div className={styles.infosection}>
@@ -68,7 +62,7 @@ export default function PassengerInfo({ setValid }) {
               type="text"
               placeholder="First name*"
               name="firstname"
-              value={formData.firstname}
+              value={formPassengerInfo.firstname}
               onChange={handleChange}
               width="200"
             />
@@ -76,7 +70,7 @@ export default function PassengerInfo({ setValid }) {
               type="text"
               placeholder="Middle"
               name="middle"
-              value={formData.middle}
+              value={formPassengerInfo.middle}
               onChange={handleChange}
               width="200"
             />
@@ -84,7 +78,7 @@ export default function PassengerInfo({ setValid }) {
               type="text"
               placeholder="Last name*"
               name="lastname"
-              value={formData.lastname}
+              value={formPassengerInfo.lastname}
               onChange={handleChange}
               width="200"
             />
@@ -94,7 +88,7 @@ export default function PassengerInfo({ setValid }) {
               type="text"
               placeholder="Suffix"
               name="suffix"
-              value={formData.suffix}
+              value={formPassengerInfo.suffix}
               onChange={handleChange}
               width="200"
             />
@@ -102,7 +96,7 @@ export default function PassengerInfo({ setValid }) {
               type="date"
               placeholder="Date of birth*"
               name="birthDate"
-              value={formData.birthDate}
+              value={formPassengerInfo.birthDate}
               onChange={handleChange}
               width="252"
             />
@@ -114,14 +108,14 @@ export default function PassengerInfo({ setValid }) {
               type="email"
               placeholder="Email address*"
               name="email"
-              value={formData.email}
+              value={formPassengerInfo.email}
               onChange={handleChange}
             />
             <CustomInput
               type="tel"
               placeholder="Phone number*"
               name="phonenumber"
-              value={formData.phonenumber}
+              value={formPassengerInfo.phonenumber}
               onChange={handleChange}
             />
           </div>
@@ -130,14 +124,14 @@ export default function PassengerInfo({ setValid }) {
               type="text"
               placeholder="Redress number"
               name="redressnumber"
-              value={formData.redressnumber}
+              value={formPassengerInfo.redressnumber}
               onChange={handleChange}
             />
             <CustomInput
               type="tel"
               placeholder="Known traveller number*"
               name="travellernumber"
-              value={formData.travellernumber}
+              value={formPassengerInfo.travellernumber}
               onChange={handleChange}
             />
           </div>
@@ -146,41 +140,51 @@ export default function PassengerInfo({ setValid }) {
       <div className={styles.infosection}>
         <h4>Emergency contact information</h4>
         <div className={styles.checkboxcontainer}>
-          <input type="checkbox" id="save-card-checkbox" name="checkbox" />
+          <input
+            type="checkbox"
+            id="save-card-checkbox"
+            name="checkbox"
+            checked={isSameAsPassenger}
+            onChange={handleCheckboxChange}
+          />
           <label htmlFor="save-card-checkbox">Same as Passenger 1</label>
         </div>
-        <div className={styles.inputscontainer}>
-          <CustomInput
-            type="text"
-            placeholder="First name*"
-            name="emergencyfirstname"
-            value={formData.emergencyfirstname}
-            onChange={handleChange}
-          />
-          <CustomInput
-            type="text"
-            placeholder="Last name*"
-            name="emergencylastname"
-            value={formData.emergencylastname}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.inputscontainer}>
-          <CustomInput
-            type="email"
-            placeholder="Email address*"
-            name="emergencyemail"
-            value={formData.emergencyemail}
-            onChange={handleChange}
-          />
-          <CustomInput
-            type="tel"
-            placeholder="Phone number*"
-            name="emergencyphonenumber"
-            value={formData.emergencyphonenumber}
-            onChange={handleChange}
-          />
-        </div>
+        {!isSameAsPassenger && (
+          <>
+            <div className={styles.inputscontainer}>
+              <CustomInput
+                type="text"
+                placeholder="First name*"
+                name="emergencyfirstname"
+                value={formPassengerInfo.emergencyfirstname}
+                onChange={handleChange}
+              />
+              <CustomInput
+                type="text"
+                placeholder="Last name*"
+                name="emergencylastname"
+                value={formPassengerInfo.emergencylastname}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={styles.inputscontainer}>
+              <CustomInput
+                type="email"
+                placeholder="Email address*"
+                name="emergencyemail"
+                value={formPassengerInfo.emergencyemail}
+                onChange={handleChange}
+              />
+              <CustomInput
+                type="tel"
+                placeholder="Phone number*"
+                name="emergencyphonenumber"
+                value={formPassengerInfo.emergencyphonenumber}
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        )}
       </div>
       <div className={styles.innercontainer}>
         <div className={styles.container16}>
@@ -197,7 +201,7 @@ export default function PassengerInfo({ setValid }) {
             <div className={styles.checkedbag}>
               <h4>Passenger 1</h4>
             </div>
-            <h4>First Last</h4>
+            <h4>{`${formPassengerInfo.firstname} ${formPassengerInfo.lastname}`}</h4>
           </div>
           <div className={styles.container16}>
             <div className={styles.checkedbag}>
@@ -205,9 +209,12 @@ export default function PassengerInfo({ setValid }) {
             </div>
             <Counter
               ok={true}
-              count={formData.checkedBags}
+              count={formPassengerInfo.checkedBags}
               setCount={(newCount) =>
-                setFormData({ ...formData, checkedBags: newCount })
+                setFormPassengerInfo({
+                  ...formPassengerInfo,
+                  checkedBags: newCount,
+                })
               }
             />
           </div>

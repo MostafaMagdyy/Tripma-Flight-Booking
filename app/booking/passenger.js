@@ -6,15 +6,27 @@ import PassengerInfo from "@/components/Passenger/passengerinfo";
 import CustomButton from "@/components/HomePage/button";
 import Reservation from "@/components/Flights/reservation";
 import Image from "next/image";
-export default function PassengerPage({ selectedFlights, action }) {
+export default function PassengerPage({
+  selectedFlights,
+  action,
+  formPassengerInfo,
+  setFormPassengerInfo,
+  isSameAsPassenger,
+  setIsSameAsPassenger,
+}) {
   const [isValid, setIsValid] = useState(false);
-
   return (
     <div className={styles.container}>
       <div className={styles.leftcontainer}>
         <div className={styles.passengercontainer}>
           <PassengerHeader />
-          <PassengerInfo setValid={setIsValid} />
+          <PassengerInfo
+            setValid={setIsValid}
+            formPassengerInfo={formPassengerInfo}
+            setFormPassengerInfo={setFormPassengerInfo}
+            isSameAsPassenger={isSameAsPassenger}
+            setIsSameAsPassenger={setIsSameAsPassenger}
+          />
         </div>
         <div className={styles.buttonscontainer}>
           <CustomButton
