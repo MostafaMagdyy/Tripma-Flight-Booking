@@ -1,16 +1,26 @@
 import styles from "./flightitem.module.css";
 import Image from "next/image";
 export default function FlightItem({ flight, onSelectFlight }) {
-  const duration = "16h 45m";
-  const fromto = "7:00AM - 4.15PM";
-  const numofstops = "2 stop";
-  const price = "512$";
-  const airport = "Hawaiian Airlines";
-  const stopinfo = "2h 45m in HNL";
-  const triptype = "round trip";
   const image = "./flight.svg";
+  const {
+    duration,
+    fromToTime: fromto,
+    availableSeats: numofSeats,
+    subtotalPrice: price,
+    airlineName: airport,
+    type: isRoundTrip,
+    stopsNumber: numofstops,
+    stopsInfo: stopinfo,
+  } = flight;
+  const tripType = isRoundTrip ? "Round Trip" : "One Way";
+
   return (
-    <div className={styles.flightcontainer} onClick={onSelectFlight}>
+    <div
+      className={styles.flightcontainer}
+      onClick={() => {
+        onSelectFlight(flight);
+      }}
+    >
       <div className={styles.imagecontainer}>
         <Image src={image} alt="flightimage" width={48} height={48} />
       </div>
@@ -19,13 +29,14 @@ export default function FlightItem({ flight, onSelectFlight }) {
           <span>{duration}</span>
           <span>{fromto}</span>
           <span>{numofstops}</span>
+
           <span>{price}</span>
         </div>
         <div className={styles.locationinfo}>
           <span>{airport}</span>
+          <span></span>
           <span>{stopinfo}</span>
-          <span>{stopinfo}</span>
-          <span>{triptype}</span>
+          <span>{tripType}</span>
         </div>
       </div>
     </div>

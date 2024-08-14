@@ -4,23 +4,24 @@ import CustomButton from "../HomePage/button";
 import styles from "./flightcontainer.module.css";
 import FlightItem from "./flightitem";
 
-export default function FlightContainer({ onSelectFlight }) {
-  const flights = Array.from({ length: 10 }, (_, index) => ({
-    id: `${index + 1}`,
-    price: (index + 1) * 100,
-  }));
-
+export default function FlightContainer({
+  onSelectFlight,
+  phase,
+  arrivingFlights,
+  departingFlights,
+}) {
+  const flights = phase === "departing" ? departingFlights : arrivingFlights;
   return (
     <div className={styles.container}>
       <div className={styles.headercontainer}>
         <h4>
-          Choose a <span>departing</span> flight
+          Choose a <span>{phase}</span> flight
         </h4>
       </div>
       <div className={styles.flightscontainer}>
         {flights.map((flight) => (
           <FlightItem
-            key={flight.id}
+            key={flight.flightId}
             flight={flight}
             onSelectFlight={onSelectFlight}
           />

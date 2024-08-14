@@ -9,23 +9,25 @@ datasource db {
 }
 
 model Flight {
-  flightId            Int       @id @default(autoincrement())
-  fromCity            String
-  toCity              String
-  type                Boolean // True for round-trip, False for one-way
-  imgPath             String
-  subtotalPrice       Float
-  taxesAndFees        Float
-  airlineName         String
-  duration            String // Format: "Xh Ymin"
-  fromToTime          String // Format: "7:00AM - 4:15PM"
-  totalAvailableSeats Int // Total available seats initially, will be managed on booking
-  Seats               Seat[]
-  Bookings            Booking[]
+  flightId      String    @id @default(uuid()) @db.Uuid
+  fromCity      String
+  toCity        String
+  type          Boolean // True for round-trip, False for one-way
+  imgPath       String
+  subtotalPrice Float
+  taxesAndFees  Float
+  airlineName   String
+  duration      String // Format: "Xh Ymin"
+  numberofStops Int
+  stopsInfo     String?
+  fromToTime    String // Format: "7:00AM - 4:15PM"
+  Date          DateTime // Date and time of departure
+  Seats         Seat[]
+  Bookings      Booking[]
 }
 
 model Seat {
-  flightId   Int
+  flightId   String  @db.Uuid
   type       String // "Economy" or "Business"
   seatNumber String
   available  Boolean
@@ -68,11 +70,9 @@ model CommentSection {
 
 model User {
   id            String           @id @default(uuid()) @db.Uuid
-  email         String           @unique
-  password      String
+  email         String?          @unique
+  password      String?
   username      String?
-  city          String
-  country       String
   image         String? // requested by google 
   name          String? // requested by google 
   emailVerified DateTime? // requested by google 
@@ -86,7 +86,7 @@ model User {
 model Booking {
   id                  String   @id @default(uuid()) @db.Uuid
   userId              String   @db.Uuid
-  flightId            Int
+  flightId            String   @db.Uuid
   departingSeat       String
   arrivingSeat        String? // Optional, can be null if not applicable
   baggageFees         Float

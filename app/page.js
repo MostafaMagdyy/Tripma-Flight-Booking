@@ -7,6 +7,7 @@ import FlightDeals from "@/components/HomePage/flightdeals";
 import CustomButton from "@/components/HomePage/button";
 import CommentSection from "@/components/HomePage/commentsection";
 import SelectionInputs from "@/components/HomePage/selectioninputs";
+import { useRouter } from "next/router";
 function FlightDealsHeader1() {
   return (
     <div className={styles.leftdescription}>
@@ -25,6 +26,7 @@ function FlightDealsHeader2() {
     </div>
   );
 }
+
 export default function HomePage() {
   const [cookiespopup, setCookiespopup] = useState(true);
 

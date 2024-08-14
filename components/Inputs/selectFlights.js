@@ -5,13 +5,21 @@ import Image from "next/image";
 import CityList from "./citylist";
 import PersonsList from "./Personslist";
 
-export default function CustomSelect({ imgpath, text, width, type, options }) {
+export default function CustomSelect({
+  imgpath,
+  text,
+  width,
+  type,
+  options = [],
+  selectedCity,
+  setSelectedCity,
+  adultsCount,
+  setAdultsCount,
+  minorsCount,
+  setMinorsCount,
+}) {
   const [showList, setShowList] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(text);
-  const [adultsCount, setAdultsCount] = useState(0);
-  const [minorsCount, setMinorsCount] = useState(0);
   const wrapperRef = useRef(null);
-
   const renderedList =
     type === "person" ? (
       <PersonsList
@@ -25,7 +33,7 @@ export default function CustomSelect({ imgpath, text, width, type, options }) {
     );
 
   function handleSelectItem(cityName) {
-    setSelectedCity(cityName);
+    if (setSelectedCity) setSelectedCity(cityName);
     setShowList(false);
   }
 
@@ -39,16 +47,14 @@ export default function CustomSelect({ imgpath, text, width, type, options }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [wrapperRef]);
+  }, []);
 
   return (
     <div
       ref={wrapperRef}
       className={styles.selectWrapper}
-      style={{ width: width }}
-      onClick={() => {
-        setShowList((prev) => !prev);
-      }}
+      style={{ width }}
+      onClick={() => setShowList((prev) => !prev)}
     >
       <div className={styles.container}>
         <div className={styles.customSelect}>
@@ -60,7 +66,7 @@ export default function CustomSelect({ imgpath, text, width, type, options }) {
             height={32}
           />
           <span className={styles.placeholder}>
-            {type === "person" ? `${adultsCount} adults` : selectedCity}
+            {type === "person" ? `${adultsCount} adults` : selectedCity || text}
           </span>
         </div>
       </div>

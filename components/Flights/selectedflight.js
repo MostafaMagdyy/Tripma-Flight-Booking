@@ -1,12 +1,13 @@
 import styles from "./selectedflight.module.css";
 import Image from "next/image";
-export default function SelectedFlight() {
-  const flightnum = "FIG4321";
-  const fromto = "7:00AM - 4.15PM";
-  const duration = "16h 45m (+1d)";
-  const airport = "Hawaiian Airlines";
-  const stopinfo = "2h 45m in HNL";
-
+export default function SelectedFlight({ flight }) {
+  const {
+    duration,
+    fromToTime: fromto,
+    airlineName: airport,
+    stopsInfo: stopinfo,
+    flightId: flightnum,
+  } = flight;
   const image = "./flight.svg";
   return (
     <div className={styles.flightcontainer}>

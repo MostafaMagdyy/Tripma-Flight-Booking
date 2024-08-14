@@ -11,8 +11,9 @@ export default function Reservation({
   action,
   text,
 }) {
+  console.log("from prices", flights);
   const calculateSubtotal = () => {
-    return flights.reduce((acc, flight) => acc + flight.price, 0);
+    return flights.reduce((acc, flight) => acc + flight.subtotalPrice, 0);
   };
 
   const calculateTaxes = () => {
@@ -26,9 +27,10 @@ export default function Reservation({
   return (
     <div className={styles.reservationContainer}>
       <div className={styles.flightspricecontainer}>
-        {flights.map((flight, index) => (
-          <SelectedFlight key={index} flight={flight} />
-        ))}
+        {flights.length > 0 &&
+          flights.map((flight, index) => (
+            <SelectedFlight key={flight.flightId} flight={flight} />
+          ))}
         <Prices
           subtotal={calculateSubtotal()}
           taxes={calculateTaxes()}

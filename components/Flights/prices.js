@@ -8,9 +8,9 @@ export default function Prices({ subtotal, taxes, total }) {
         <h5>Total </h5>
       </div>
       <div className={styles.totalprice}>
-        <h5>{`$ ${subtotal}`}</h5>
-        <h5>{`$ ${taxes}`}</h5>
-        <h5>{`$ ${total}`}</h5>
+        <h5>{`$ ${Math.floor(subtotal)}`}</h5>
+        <h5>{`$ ${Math.floor(taxes)}`}</h5>
+        <h5>{`$ ${Math.floor(total)}`}</h5>
       </div>
     </div>
   );

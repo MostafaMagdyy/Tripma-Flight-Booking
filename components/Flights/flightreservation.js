@@ -11,11 +11,20 @@ export default function FlightReservation({
   action,
   selectedFlights,
   handleSelectFlight,
+  phase,
+  arrivingFlights,
+  departingFlights,
 }) {
+  console.log(selectedFlights);
   return (
     <div className={styles.flightpricesinfo}>
       <div className={styles.flightsinfo}>
-        <FlightContainer onSelectFlight={handleSelectFlight} />
+        <FlightContainer
+          onSelectFlight={handleSelectFlight}
+          phase={phase}
+          arrivingFlights={arrivingFlights}
+          departingFlights={departingFlights}
+        />
         <div className={styles.imagecontainer}>
           <Image src="./Map.svg" alt="Map" width={872} height={171} />
         </div>

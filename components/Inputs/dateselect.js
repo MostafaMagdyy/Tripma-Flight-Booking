@@ -2,6 +2,7 @@ import styles from "./dateselect.module.css";
 import Image from "next/image";
 export default function DateSelect({ startDate, endDate }) {
   const formatDateRange = (start, end) => {
+    if (start === null && end === null) return "Depart - Return";
     if (start && end) {
       const startFormatted = start.toLocaleDateString("en-US", {
         month: "short",
@@ -13,7 +14,6 @@ export default function DateSelect({ startDate, endDate }) {
       });
       return `${startFormatted} - ${endFormatted}`;
     }
-    return "Depart - Return";
   };
   return (
     <div className={styles.selectWrapper}>

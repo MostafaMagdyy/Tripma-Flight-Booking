@@ -17,22 +17,12 @@ const CONFIRMATION_PAGE = "CONFIRMATION_PAGE";
 
 export default function FlightsPage() {
   const [currentPage, setCurrentPage] = useState(FLIGHTS_PAGE);
-  const [selectedFlights, setSelectedFlights] = useState([]);
-
-  const handleSelectFlight = (flight) => {
-    setSelectedFlights((prevSelectedFlights) => {
-      if (prevSelectedFlights.length >= 2) {
-        return prevSelectedFlights;
-      }
-      return [...prevSelectedFlights, flight];
-    });
-  };
 
   return (
     <>
       {currentPage !== SEATS_PAGE && <Header />}
 
-      {currentPage === CONFIRMATION_PAGE && <ConfirmationPage />}
+      {/* {currentPage === CONFIRMATION_PAGE && <ConfirmationPage />}
       {currentPage === PASSENGER_PAGE && (
         <PassengerPage
           selectedFlights={selectedFlights}
@@ -40,17 +30,15 @@ export default function FlightsPage() {
             setCurrentPage(SEATS_PAGE);
           }}
         />
-      )}
+      )} */}
       {currentPage === FLIGHTS_PAGE && (
         <Flights
           action={() => {
             setCurrentPage(PASSENGER_PAGE);
           }}
-          selectedFlights={selectedFlights}
-          handleSelectFlight={handleSelectFlight}
         />
       )}
-      {currentPage === SEATS_PAGE && (
+      {/* {currentPage === SEATS_PAGE && (
         <SeatsPage
           action={() => {
             setCurrentPage(PAYMENT_PAGE);
@@ -64,7 +52,7 @@ export default function FlightsPage() {
             setCurrentPage(CONFIRMATION_PAGE);
           }}
         />
-      )}
+      )} */}
 
       {currentPage !== SEATS_PAGE && <Footer />}
     </>

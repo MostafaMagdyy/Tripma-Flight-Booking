@@ -1,33 +1,43 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./dateinput.module.css";
 import Image from "next/image";
-import Date from "./date";
+import DateComponent from "./date";
 
-export default function DateInput({ imgpath, text, width }) {
+export default function DateInput({
+  imgpath,
+  text,
+  width,
+  selectedDates,
+  onDateChange,
+  type,
+  setType,
+}) {
   const [showDate, setShowDate] = useState(false);
-  const [selectedDates, setSelectedDates] = useState({
-    startDate: null,
-    endDate: null,
-  });
+
   const wrapperRef = useRef(null);
 
   const formatDateRange = (start, end) => {
-    if (start && end) {
-      const startFormatted = start.toLocaleDateString("en-US", {
+    if (start === null && end === null) return text;
+    const startDate = start instanceof Date ? start : new Date(start);
+    const endDate = end instanceof Date ? end : new Date(end);
+    if (!isNaN(startDate) && !isNaN(endDate) && type) {
+      const startFormatted = startDate.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       });
-      const endFormatted = end.toLocaleDateString("en-US", {
+      const endFormatted = endDate.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       });
       return `${startFormatted} - ${endFormatted}`;
+    } else if (!isNaN(startDate)) {
+      const startFormatted = startDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+      return `${startFormatted}`;
     }
     return text;
-  };
-
-  const handleDateChange = ({ startDate, endDate }) => {
-    setSelectedDates({ startDate, endDate });
   };
 
   useEffect(() => {
@@ -42,6 +52,9 @@ export default function DateInput({ imgpath, text, width }) {
     };
   }, [wrapperRef]);
 
+  const handleDateChange = (start, end) => {
+    onDateChange(start, end);
+  };
   return (
     <div
       ref={wrapperRef}
@@ -65,7 +78,7 @@ export default function DateInput({ imgpath, text, width }) {
       </div>
       {showDate && (
         <div className={styles.listContainer}>
-          <Date
+          <DateComponent
             action={(e) => {
               e.stopPropagation();
               setShowDate(false);
@@ -73,6 +86,8 @@ export default function DateInput({ imgpath, text, width }) {
             onDateChange={handleDateChange}
             startDate={selectedDates.startDate}
             endDate={selectedDates.endDate}
+            type={type}
+            setType={setType}
           />
         </div>
       )}
