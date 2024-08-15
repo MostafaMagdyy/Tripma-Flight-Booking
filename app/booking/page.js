@@ -6,7 +6,7 @@ import PaymentPage from "./payment";
 import Header from "@/components/Header/header";
 import Footer from "@/components/Footer/footer";
 import { useRouter } from "next/navigation";
-
+import Popup from "@/components/Payment/popup";
 const PASSENGER_PAGE = "PASSENGER_PAGE";
 const SEATS_PAGE = "SEATS_PAGE";
 const PAYMENT_PAGE = "PAYMENT_PAGE";
@@ -42,7 +42,8 @@ export default function BookingPage() {
   const [departingSeat, setDepartingSeat] = useState(null);
   const [arrivingSeat, setArrivingSeat] = useState(null);
   const [isSameAsPassenger, setIsSameAsPassenger] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const departingFlight = localStorage.getItem("departingFlight");
     const arrivingFlight = localStorage.getItem("arrivingFlight");
@@ -55,16 +56,21 @@ export default function BookingPage() {
       flights.push(JSON.parse(arrivingFlight));
     }
     setSelectedFlights(flights);
+    console.log(flights);
   }, []);
 
   async function flightBooking() {
     try {
+      setLoading(true);
+      setError(null);
+      console.log(selectedFlights[0]);
+      console.log(selectedFlights[1]);
       const requestData = {
         userId: null,
-        departingFlightId: "0089b898-88d4-4e9e-ac26-e1c929279077",
-        // returningFlightId: "06b2a838-325f-42d3-8f76-f537f5ac32d1", // Optional
-        departingSeat: "B17",
-        // arrivingSeat: "D14", // Optional
+        departingFlightId: selectedFlights[0].flightId,
+        returningFlightId: selectedFlights[1]?.flightId || null, // Optional
+        departingSeat: departingSeat.seatNumber,
+        arrivingSeat: arrivingSeat?.seatNumber || null, // Optional
         passengerInfo: {
           firstName: formPassengerInfo.firstname,
           middleName: formPassengerInfo.middle || null,
@@ -96,13 +102,16 @@ export default function BookingPage() {
       });
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(`${result.error}`);
+        throw new Error(`${result.message}`);
       }
       localStorage.setItem("bookingInfo", JSON.stringify(result));
       console.log("Booking confirmed:", result);
       router.push("/successbooking");
     } catch (error) {
+      setError(`${error}`);
       console.error("Error confirming booking:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -139,6 +148,16 @@ export default function BookingPage() {
         />
       )}
       {currentPage !== SEATS_PAGE && <Footer />}
+      {loading && (
+        <Popup
+          message="Processing your booking request..."
+          onClose={() => setLoading(false)}
+          type="normal"
+        />
+      )}
+      {error && (
+        <Popup message={error} onClose={() => setError(null)} type="error" />
+      )}
     </>
   );
 }

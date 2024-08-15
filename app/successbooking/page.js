@@ -11,10 +11,7 @@ import Image from "next/image";
 import PlaceSuggestion from "@/components/Confirmation/placesugguesstion";
 
 export default function ConfirmationPage() {
-  // State to hold booking information
   const [bookingInfo, setBookingInfo] = useState(null);
-
-  // Fetch booking info from localStorage when component mounts
   useEffect(() => {
     const storedBookingInfo = localStorage.getItem("bookingInfo");
     if (storedBookingInfo) {

@@ -78,7 +78,7 @@ export default function FlightsPage() {
   const handleSelectFlight = (flight) => {
     setSelectedFlights((prevSelectedFlights) => {
       if (prevSelectedFlights.length >= 2) return prevSelectedFlights;
-      setPhase("returning");
+      if (searchParams.type) setPhase("returning");
       return [...prevSelectedFlights, flight];
     });
   };
@@ -143,6 +143,7 @@ export default function FlightsPage() {
         phase={phase}
         departingFlights={departingFlights}
         arrivingFlights={arrivingFlights}
+        type={searchParams.type}
       />
       <FlightDeals
         showfull={false}

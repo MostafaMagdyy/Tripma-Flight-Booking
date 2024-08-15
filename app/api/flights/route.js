@@ -10,14 +10,14 @@ export async function GET(request) {
     const fromCity = searchParams.get("fromCity");
     const toCity = searchParams.get("toCity");
     const date = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate"); // Added for arriving flights
+    const endDate = searchParams.get("endDate");
     const adults = parseInt(searchParams.get("adults") || "0");
     const minors = parseInt(searchParams.get("minors") || "0");
     const type = searchParams.get("type") === "true";
 
     const totalPassengers = adults + minors;
     const dateObj = new Date(date);
-    const endDateObj = new Date(endDate);
+    const endDateObj = endDate ? new Date(endDate) : null;
 
     let departingFlightsQuery = {
       where: {
@@ -26,13 +26,13 @@ export async function GET(request) {
         type: type,
         Date: {
           gte: dateObj,
-          lt: new Date(dateObj.getTime() + 24 * 60 * 60 * 1000), // Next day
+          lt: new Date(dateObj.getTime() + 24 * 60 * 60 * 1000),
         },
-        // Seats: {
-        //   some: {
-        //     available: true,
-        //   },
-        // },
+        Seats: {
+          some: {
+            available: true,
+          },
+        },
       },
       include: {
         Seats: {
@@ -46,7 +46,7 @@ export async function GET(request) {
     let departingFlights = await prisma.flight.findMany(departingFlightsQuery);
 
     departingFlights = departingFlights.filter(
-      (flight) => flight.Seats.length >= 0
+      (flight) => flight.Seats.length >= totalPassengers
     );
 
     const formattedDepartingFlights = departingFlights.map((flight) => ({
@@ -67,21 +67,21 @@ export async function GET(request) {
     }));
 
     let arrivingFlights = [];
-    if (type) {
+    if (type && endDateObj) {
       let arrivingFlightsQuery = {
         where: {
-          fromCity: toCity, // Reverse cities
+          fromCity: toCity,
           toCity: fromCity,
           type: type,
           Date: {
             gte: endDateObj,
-            lt: new Date(endDateObj.getTime() + 24 * 60 * 60 * 1000), // Next day
+            lt: new Date(endDateObj.getTime() + 24 * 60 * 60 * 1000),
           },
-          // Seats: {
-          //   some: {
-          //     available: true,
-          //   },
-          // },
+          Seats: {
+            some: {
+              available: true,
+            },
+          },
         },
         include: {
           Seats: {
@@ -95,7 +95,7 @@ export async function GET(request) {
       arrivingFlights = await prisma.flight.findMany(arrivingFlightsQuery);
 
       arrivingFlights = arrivingFlights.filter(
-        (flight) => flight.Seats.length >= 0
+        (flight) => flight.Seats.length >= totalPassengers
       );
 
       arrivingFlights = arrivingFlights.map((flight) => ({
@@ -120,6 +120,7 @@ export async function GET(request) {
       departingFlights: formattedDepartingFlights,
       arrivingFlights,
     });
+
     return NextResponse.json({
       departingFlights: formattedDepartingFlights,
       arrivingFlights,

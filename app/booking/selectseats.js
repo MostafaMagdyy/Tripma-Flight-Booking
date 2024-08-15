@@ -5,6 +5,7 @@ import SeatDetails from "@/components/Seats/seatdetails";
 import ProgressStepHeader from "@/components/Seats/prograssheader";
 import Image from "next/image";
 import Seats from "@/components/Seats/seats";
+import CustomButton from "@/components/HomePage/button";
 
 const economyBenefits = [
   "Built-in entertainment system",
@@ -39,11 +40,16 @@ const SeatsPage = ({
   const [businessSeats, setBusinessSeats] = useState([]);
   const [fetchArriving, setFetchArriving] = useState(false);
   const [error, setError] = useState(null);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+  const [upgradedSeat, setUpgradedSeat] = useState(false);
 
-  const seatNumber = fetchArriving ? arrivingSeat : departingSeat;
+  const selectedSeat = fetchArriving ? arrivingSeat : departingSeat;
 
-  const Id1 = "000ffbc3-1427-44a4-a857-ca43c99b329c"; // Departing flight ID
-  const Id2 = "0211e12e-c658-444e-bf58-b8d48af56200"; // Arriving flight ID
+  const Id1 = "0089b898-88d4-4e9e-ac26-e1c929279077";
+  const Id2 = "06b2a838-325f-42d3-8f76-f537f5ac32d1";
+
+  const [departingDifference, setDepartingDifference] = useState(null);
+  const [arrivingDifference, setArrivingDifference] = useState(null);
 
   useEffect(() => {
     async function fetchSeats(Id) {
@@ -55,26 +61,75 @@ const SeatsPage = ({
         }
         setEconomySeats(data.economySeats);
         setBusinessSeats(data.businessSeats);
+
+        console.log(data.economySeats);
+        console.log(data.businessSeats);
+        const economyPrice = data.economySeats[0]?.price;
+        const businessPrice = data.businessSeats[0]?.price;
+        const difference = businessPrice - economyPrice;
+
+        if (Id === selectedFlights[0].flightId) {
+          setDepartingDifference(difference);
+        } else {
+          setArrivingDifference(difference);
+        }
       } catch (error) {
         console.error("Error fetching seats:", error);
         setError(error.message);
       }
     }
 
-    if (fetchArriving) {
-      if (selectedFlights.length > 1) fetchSeats(Id2);
+    if (fetchArriving && selectedFlights.length > 1) {
+      fetchSeats(selectedFlights[1].flightId);
     } else if (selectedFlights[0]?.flightId) {
-      fetchSeats(Id1);
+      fetchSeats(selectedFlights[0].flightId);
     }
   }, [selectedFlights, fetchArriving]);
 
-  const onSeatClick = (seatNumber) => {
+  const onSeatClick = (seat) => {
     if (fetchArriving) {
-      setArrivingSeat(seatNumber);
+      setArrivingSeat(seat);
     } else {
-      setDepartingSeat(seatNumber);
+      setDepartingSeat(seat);
     }
   };
+
+  const differenceToDisplay = fetchArriving
+    ? arrivingDifference
+    : departingDifference;
+
+  const handleSeatSelection = (seat) => {
+    if (!selectedSeat) {
+      onSeatClick(seat);
+      return;
+    }
+    if (seat.type === "Business" && selectedSeat.type !== "Business") {
+      setUpgradedSeat(seat);
+      setIsOverlayVisible(true);
+    } else {
+      setUpgradedSeat(null);
+      setIsOverlayVisible(false);
+      onSeatClick(seat);
+    }
+  };
+
+  const handleUpgradeConfirm = () => {
+    setIsOverlayVisible(false);
+    onSeatClick(upgradedSeat);
+  };
+
+  const handleCancelUpgrade = () => {
+    setIsOverlayVisible(false);
+  };
+
+  useEffect(() => {
+    const bodyContainer = document.querySelector(`.${styles.bodycontainer}`);
+    if (isOverlayVisible) {
+      bodyContainer.classList.add(`${styles["overlay-active"]}`);
+    } else {
+      bodyContainer.classList.remove(`${styles["overlay-active"]}`);
+    }
+  }, [isOverlayVisible]);
 
   if (error) {
     return <div className={styles.error}>Error: {error}</div>;
@@ -85,11 +140,36 @@ const SeatsPage = ({
       <div className={styles.planecontainer}>
         <Image src={"/plane.svg"} alt="plane" layout="fill" objectFit="cover" />
         <Seats
-          selectedSeat={fetchArriving ? arrivingSeat : departingSeat}
-          onSeatClick={onSeatClick}
+          selectedSeat={selectedSeat}
+          onSeatClick={handleSeatSelection}
           economySeats={economySeats}
           businessSeats={businessSeats}
         />
+        {isOverlayVisible && (
+          <div className={styles.overlay}>
+            <div className={styles.overlayContent}>
+              <h3>Upgrade Seat</h3>
+              <p>
+                Upgrade your seat for only ${differenceToDisplay}, and enjoy 45
+                percent more leg room, and seats that recline 40 percent more
+                than economy.
+              </p>
+              <div className={styles.buttonscontainer}>
+                <CustomButton
+                  text={`Upgrade for ${differenceToDisplay}`}
+                  action={handleUpgradeConfirm}
+                />
+                <CustomButton
+                  text="Cancel"
+                  backgroundcolor="white"
+                  color="#605DEC"
+                  border="1px solid #605DEC"
+                  action={handleCancelUpgrade}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className={styles.bodycontainer}>
         <ProgressStepHeader Step={1} />
@@ -108,7 +188,7 @@ const SeatsPage = ({
         <SeatDetails
           passengerNumber={1}
           passengerName={passengerName}
-          seatNumber={seatNumber}
+          seatNumber={selectedSeat?.seatNumber || "--"}
           action={action}
           selectedFlights={selectedFlights}
           setFetchArriving={setFetchArriving}

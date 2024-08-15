@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./seats.module.css";
 import Image from "next/image";
 
@@ -11,9 +11,11 @@ const BusinessSeats = ({ rows, selectedSeat, onSeatClick, businessSeats }) => {
             <div
               key={seat.seatNumber}
               className={`${styles.seatBusiness} ${
-                selectedSeat === seat.seatNumber ? styles.selected : ""
+                selectedSeat?.seatNumber === seat.seatNumber
+                  ? styles.selected
+                  : ""
               }`}
-              onClick={() => onSeatClick(seat.seatNumber)}
+              onClick={() => onSeatClick(seat)}
             ></div>
           ))}
           <div className={styles.rowNumber}>{row}</div>
@@ -23,9 +25,11 @@ const BusinessSeats = ({ rows, selectedSeat, onSeatClick, businessSeats }) => {
               <div
                 key={seat.seatNumber}
                 className={`${styles.seatBusiness} ${
-                  selectedSeat === seat.seatNumber ? styles.selected : ""
+                  selectedSeat?.seatNumber === seat.seatNumber
+                    ? styles.selected
+                    : ""
                 }`}
-                onClick={() => onSeatClick(seat.seatNumber)}
+                onClick={() => onSeatClick(seat)}
               ></div>
             ))}
         </div>
@@ -61,9 +65,11 @@ const EconomySeats = ({
               <div
                 key={seat.seatNumber}
                 className={`${styles.seatEconomy} ${
-                  selectedSeat === seat.seatNumber ? styles.selected : ""
+                  selectedSeat?.seatNumber === seat.seatNumber
+                    ? styles.selected
+                    : ""
                 }`}
-                onClick={() => onSeatClick(seat.seatNumber)}
+                onClick={() => onSeatClick(seat)}
               ></div>
             ))}
             <span className={styles.rowNumber}>{row}</span>
@@ -73,9 +79,11 @@ const EconomySeats = ({
                 <div
                   key={seat.seatNumber}
                   className={`${styles.seatEconomy} ${
-                    selectedSeat === seat.seatNumber ? styles.selected : ""
+                    selectedSeat?.seatNumber === seat.seatNumber
+                      ? styles.selected
+                      : ""
                   }`}
-                  onClick={() => onSeatClick(seat.seatNumber)}
+                  onClick={() => onSeatClick(seat)}
                 ></div>
               ))}
           </div>
