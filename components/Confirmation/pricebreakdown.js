@@ -1,38 +1,50 @@
 import styles from "./pricebreakdown.module.css";
-export default function PriceBreakdown() {
+
+export default function PriceBreakdown({
+  baggageFees,
+  upgradeFees,
+  taxes,
+  totaldeparting,
+  totalreturning,
+  total,
+}) {
+  const subtotal = total - taxes;
+
   return (
     <div className={styles.container}>
-      <h3>Price breakdown</h3>
+      <h3>Price Breakdown</h3>
       <div className={styles.info}>
         <div className={styles.pricelistitem}>
           <p>Departing Flight</p>
-          <p>$251.50</p>
+          <p>${totaldeparting.toFixed(2)}</p>
+        </div>
+        {totalreturning !== undefined && (
+          <div className={styles.pricelistitem}>
+            <p>Arriving Flight</p>
+            <p>${totalreturning.toFixed(2)}</p>
+          </div>
+        )}
+        <div className={styles.pricelistitem}>
+          <p>Baggage Fees</p>
+          <p>${baggageFees.toFixed(2)}</p>
         </div>
         <div className={styles.pricelistitem}>
-          <p>Arriving Flight</p>
-          <p>$251.50</p>
-        </div>
-        <div className={styles.pricelistitem}>
-          <p>Baggage fees</p>
-          <p>$0</p>
-        </div>
-        <div className={styles.pricelistitem}>
-          <p>Seat upgrade (business)</p>
-          <p>$251.50</p>
+          <p>Seat Upgrade (Business)</p>
+          <p>${upgradeFees.toFixed(2)}</p>
         </div>
         <div className={styles.pricelistitem}>
           <p>Subtotal</p>
-          <p>$702</p>
+          <p>${subtotal.toFixed(2)}</p>
         </div>
         <div className={styles.pricelistitem}>
-          <p>Taxes (9.4%)</p>
-          <p>$66</p>
+          <p>Taxes</p>
+          <p>${taxes.toFixed(2)}</p>
         </div>
       </div>
       <div className={styles.amount}>
         <div className={styles.pricelistitem}>
-          <h4>Amount paid</h4>
-          <h4>$768</h4>
+          <h4>Amount Paid</h4>
+          <h4>${total.toFixed(2)}</h4>
         </div>
       </div>
     </div>

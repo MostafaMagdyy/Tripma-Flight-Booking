@@ -26,9 +26,15 @@ const economyDescription =
 const businessDescription =
   "Experience luxury and personalized service with our business class, offering enhanced food and drink service.";
 
-const SeatsPage = ({ action, selectedFlights, passengerName }) => {
-  const [departingSeat, setDepartingSeat] = useState("--");
-  const [arrivingSeat, setArrivingSeat] = useState("--");
+const SeatsPage = ({
+  action,
+  selectedFlights,
+  passengerName,
+  setDepartingSeat,
+  setArrivingSeat,
+  arrivingSeat,
+  departingSeat,
+}) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [fetchArriving, setFetchArriving] = useState(false);

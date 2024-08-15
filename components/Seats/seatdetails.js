@@ -56,5 +56,5 @@ export default function SeatDetails({
         </div>
       </div>
     </div>
-  );
+  );  
 }

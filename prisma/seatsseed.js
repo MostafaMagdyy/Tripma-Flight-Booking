@@ -20,10 +20,19 @@ async function main() {
 }
 
 async function seedSeats(flightId, seatType) {
-  // Define the range of rows to choose from
+  // Define the maximum number of rows and calculate the remaining rows for each flight
   const maxRows = 35;
+
+  // Get existing rows for the current flight to ensure we don't exceed the limit
+  const existingRows = await getTotalRowsForFlight(flightId);
+
+  // Calculate available rows for new seats
+  const rowsLeft = maxRows - existingRows;
   const minRows = seatType === "Business" ? 3 : 10;
-  const rows = Math.floor(Math.random() * (maxRows - minRows + 1)) + minRows;
+  const rows = Math.min(
+    Math.floor(Math.random() * (maxRows - minRows + 1)) + minRows,
+    rowsLeft
+  );
 
   const seatsPerRow = seatType === "Business" ? 4 : 6;
 
@@ -56,6 +65,21 @@ async function seedSeats(flightId, seatType) {
     data: seats,
     skipDuplicates: true, // To avoid duplication errors if running the seed multiple times
   });
+}
+
+async function getTotalRowsForFlight(flightId) {
+  // Get the total number of unique rows (seats) already seeded for this flight
+  const seats = await prisma.seat.findMany({
+    where: {
+      flightId: flightId,
+    },
+    select: {
+      seatNumber: true,
+    },
+  });
+
+  const seatRows = new Set(seats.map((seat) => seat.seatNumber.slice(1))); // Extract row numbers
+  return seatRows.size;
 }
 
 main()

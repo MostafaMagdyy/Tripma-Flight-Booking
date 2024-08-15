@@ -9,21 +9,24 @@ datasource db {
 }
 
 model Flight {
-  flightId      String    @id @default(uuid()) @db.Uuid
+  flightId      String   @id @default(uuid()) @db.Uuid
   fromCity      String
   toCity        String
   type          Boolean // True for round-trip, False for one-way
   imgPath       String
   subtotalPrice Float
   taxesAndFees  Float
+  baggageFees   Float
   airlineName   String
   duration      String // Format: "Xh Ymin"
   numberofStops Int
   stopsInfo     String?
   fromToTime    String // Format: "7:00AM - 4:15PM"
   Date          DateTime // Date and time of departure
-  Seats         Seat[]
-  Bookings      Booking[]
+
+  Seats               Seat[]
+  BookingsAsDeparting Booking[] @relation("DepartingFlight")
+  BookingsAsReturning Booking[] @relation("ReturningFlight")
 }
 
 model Seat {
@@ -35,7 +38,7 @@ model Seat {
 
   Flight Flight @relation(fields: [flightId], references: [flightId])
 
-  @@id([flightId, type, seatNumber])
+  @@id([flightId, seatNumber])
 }
 
 model FlightDeals {
@@ -85,8 +88,9 @@ model User {
 
 model Booking {
   id                  String   @id @default(uuid()) @db.Uuid
-  userId              String   @db.Uuid
-  flightId            String   @db.Uuid
+  userId              String?  @db.Uuid
+  departingFlightId   String   @db.Uuid
+  returningFlightId   String?  @db.Uuid // Optional, can be null if not applicable
   departingSeat       String
   arrivingSeat        String? // Optional, can be null if not applicable
   baggageFees         Float
@@ -95,8 +99,9 @@ model Booking {
   confirmationMessage String // Unique confirmation message
   createdAt           DateTime @default(now())
 
-  User             User             @relation(fields: [userId], references: [id])
-  Flight           Flight           @relation(fields: [flightId], references: [flightId])
+  User             User?            @relation(fields: [userId], references: [id])
+  DepartingFlight  Flight           @relation("DepartingFlight", fields: [departingFlightId], references: [flightId])
+  ReturningFlight  Flight?          @relation("ReturningFlight", fields: [returningFlightId], references: [flightId])
   PassengerInfos   PassengerInfo[]
   PaymentInfos     PaymentInfo[]
   ShareItineraries ShareItinerary[]
@@ -120,12 +125,13 @@ model PassengerInfo {
 
 model PaymentInfo {
   id          String   @id @default(uuid()) @db.Uuid
-  paymentType String // e.g., Credit Card, PayPal
+  paymentType String
   bookingId   String   @db.Uuid
   nameOnCard  String
-  cardNumber  String // Store card numbers securely, ideally encrypted
-  ccv         String // Store CCV securely, ideally encrypted
+  cardNumber  String
+  ccv         String
   date        DateTime
+  expireDate  DateTime
 
   Booking Booking @relation(fields: [bookingId], references: [id])
 
