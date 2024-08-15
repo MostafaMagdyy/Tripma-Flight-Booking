@@ -13,15 +13,15 @@ import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const isFlightsPage = pathname === "/flights";
+  const isBookingPage = pathname === "/booking";
 
   return (
     <html lang="en">
       <body>
         <SessionProvider>
-          {!isFlightsPage && <Header />}
+          {!isBookingPage && <Header />}
           {children}
-          {!isFlightsPage && <Footer />}
+          {!isBookingPage && <Footer />}
         </SessionProvider>
       </body>
     </html>

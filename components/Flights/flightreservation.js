@@ -14,6 +14,7 @@ export default function FlightReservation({
   phase,
   arrivingFlights,
   departingFlights,
+  type,
 }) {
   console.log(selectedFlights);
   return (
@@ -24,6 +25,7 @@ export default function FlightReservation({
           phase={phase}
           arrivingFlights={arrivingFlights}
           departingFlights={departingFlights}
+          
         />
         <div className={styles.imagecontainer}>
           <Image src="./Map.svg" alt="Map" width={872} height={171} />
@@ -37,7 +39,11 @@ export default function FlightReservation({
             <PriceRating />
           </>
         ) : (
-          <Reservation flights={selectedFlights} action={action} />
+          <Reservation
+            flights={selectedFlights}
+            action={action}
+            FlightType={type}
+          />
         )}
       </div>
     </div>

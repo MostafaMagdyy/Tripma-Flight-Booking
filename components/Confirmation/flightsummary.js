@@ -1,19 +1,40 @@
 import styles from "./flightsummary.module.css";
 import FlightItem from "../Flights/flightitem";
-export default function FlightSummary() {
+
+export default function FlightSummary({
+  departingFlight,
+  returningFlight,
+  departingSeat,
+  arrivingSeat,
+  checkedBags,
+}) {
+  const formatDate = (date) => {
+    console.log;
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className={styles.container}>
-      <h3>Flight summary</h3>
+      <h3>Flight Summary</h3>
       <div className={styles.info}>
-        <h4>Departing February 25th, 2021</h4>
-        <FlightItem />
-        <p>Seat 9F (economy, window), 1 checked bag</p>
+        <h4>Departing {formatDate(departingFlight.Date)}</h4>
+        <FlightItem flight={departingFlight} onSelectFlight={() => {}} />
+        <p>
+          Seat {departingSeat.seatNumber} {departingSeat.type} window,{" "}
+          {checkedBags} checked bag{`${checkedBags > 1 ? "s" : ""}`}
+        </p>
       </div>
-      <div className={styles.info}>
-        <h4>Arriving March 21st, 2021 </h4>
-        <FlightItem />
-        <p>Seat 4F (business, window), 1 checked bag</p>
-      </div>
+      {returningFlight && (
+        <div className={styles.info}>
+          <h4>Arriving {formatDate(returningFlight.Date)}</h4>
+          <FlightItem flight={returningFlight} onSelectFlight={() => {}} />
+          <p>
+            Seat {arrivingSeat.seatNumber} {arrivingSeat.type} window,{" "}
+            {checkedBags} checked bag{`${checkedBags > 1 ? "s" : ""}`}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

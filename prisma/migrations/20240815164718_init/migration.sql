@@ -7,24 +7,26 @@ CREATE TABLE "Flight" (
     "imgPath" TEXT NOT NULL,
     "subtotalPrice" DOUBLE PRECISION NOT NULL,
     "taxesAndFees" DOUBLE PRECISION NOT NULL,
+    "baggageFees" DOUBLE PRECISION NOT NULL,
     "airlineName" TEXT NOT NULL,
     "duration" TEXT NOT NULL,
+    "numberofStops" INTEGER NOT NULL,
+    "stopsInfo" TEXT,
     "fromToTime" TEXT NOT NULL,
-    "totalAvailableSeats" INTEGER NOT NULL,
+    "Date" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Flight_pkey" PRIMARY KEY ("flightId")
 );
 
 -- CreateTable
 CREATE TABLE "Seat" (
-    "seatId" UUID NOT NULL,
     "flightId" UUID NOT NULL,
     "type" TEXT NOT NULL,
     "seatNumber" TEXT NOT NULL,
     "available" BOOLEAN NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
 
-    CONSTRAINT "Seat_pkey" PRIMARY KEY ("seatId")
+    CONSTRAINT "Seat_pkey" PRIMARY KEY ("flightId","seatNumber")
 );
 
 -- CreateTable
@@ -81,8 +83,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Booking" (
     "id" UUID NOT NULL,
-    "userId" UUID NOT NULL,
-    "flightId" UUID NOT NULL,
+    "userId" UUID,
+    "departingFlightId" UUID NOT NULL,
+    "returningFlightId" UUID,
     "departingSeat" TEXT NOT NULL,
     "arrivingSeat" TEXT,
     "baggageFees" DOUBLE PRECISION NOT NULL,
@@ -120,6 +123,7 @@ CREATE TABLE "PaymentInfo" (
     "cardNumber" TEXT NOT NULL,
     "ccv" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "expireDate" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -152,51 +156,11 @@ CREATE TABLE "Account" (
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "VerificationRequest" (
-    "id" UUID NOT NULL,
-    "identifier" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
-    "expires" TIMESTAMP(3) NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "VerificationRequest_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Session" (
-    "id" UUID NOT NULL,
-    "userId" UUID NOT NULL,
-    "expires" TIMESTAMP(3) NOT NULL,
-    "sessionToken" TEXT NOT NULL,
-    "accessToken" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
-);
-
--- CreateIndex
-CREATE UNIQUE INDEX "Seat_flightId_type_seatNumber_key" ON "Seat"("flightId", "type", "seatNumber");
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "VerificationRequest_token_key" ON "VerificationRequest"("token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "VerificationRequest_identifier_token_key" ON "VerificationRequest"("identifier", "token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Session_accessToken_key" ON "Session"("accessToken");
 
 -- AddForeignKey
 ALTER TABLE "Seat" ADD CONSTRAINT "Seat_flightId_fkey" FOREIGN KEY ("flightId") REFERENCES "Flight"("flightId") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -205,10 +169,13 @@ ALTER TABLE "Seat" ADD CONSTRAINT "Seat_flightId_fkey" FOREIGN KEY ("flightId") 
 ALTER TABLE "CommentSection" ADD CONSTRAINT "CommentSection_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_flightId_fkey" FOREIGN KEY ("flightId") REFERENCES "Flight"("flightId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_departingFlightId_fkey" FOREIGN KEY ("departingFlightId") REFERENCES "Flight"("flightId") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_returningFlightId_fkey" FOREIGN KEY ("returningFlightId") REFERENCES "Flight"("flightId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PassengerInfo" ADD CONSTRAINT "PassengerInfo_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -221,6 +188,3 @@ ALTER TABLE "ShareItinerary" ADD CONSTRAINT "ShareItinerary_bookingId_fkey" FORE
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

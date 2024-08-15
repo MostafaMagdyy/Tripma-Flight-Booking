@@ -10,8 +10,8 @@ export default function Reservation({
   isValid,
   action,
   text,
+  FlightType,
 }) {
-  console.log("from prices", flights);
   const calculateSubtotal = () => {
     return flights.reduce((acc, flight) => acc + flight.subtotalPrice, 0);
   };
@@ -38,7 +38,7 @@ export default function Reservation({
         />
       </div>
       <div className={styles.reservebutton}>
-        {type === "Flights" && flights.length === 1 ? (
+        {type === "Flights" && FlightType && flights.length === 1 ? (
           <CustomButton
             text="Save and Close"
             backgroundcolor="white"
@@ -47,7 +47,8 @@ export default function Reservation({
             border="1px solid #605DEC"
             action={action}
           />
-        ) : type === "Flights" && flights.length === 2 ? (
+        ) : (type === "Flights" && !FlightType && flights.length === 1) ||
+          (type === "Flights" && FlightType && flights.length === 2) ? (
           <CustomButton text="Passenger Inforamtion" action={action} />
         ) : (
           <CustomButton

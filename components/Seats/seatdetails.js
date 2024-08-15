@@ -7,7 +7,11 @@ export default function SeatDetails({
   passengerName,
   seatNumber,
   action,
+  selectedFlights,
+  setFetchArriving,
+  fetchArriving,
 }) {
+  console.log(seatNumber);
   return (
     <div className={styles.detailsContainer}>
       <div className={styles.speratorcontainer}>
@@ -39,11 +43,18 @@ export default function SeatDetails({
               color="#7C8DB0"
               border="1px solid #7C8DB0"
             />
-          ) : (
+          ) : selectedFlights.length === 1 || fetchArriving ? (
             <CustomButton text="Payment method" action={action} />
+          ) : (
+            <CustomButton
+              text="Next Flight"
+              action={() => {
+                setFetchArriving(true);
+              }}
+            />
           )}
         </div>
       </div>
     </div>
-  );
+  );  
 }

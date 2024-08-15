@@ -1,49 +1,53 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./seats.module.css";
 import Image from "next/image";
 
-const arr = ["A", "B", "C", "D", "E", "F"];
-
-const BusinessSeats = ({ rows, selectedSeat, onSeatClick }) => {
+const BusinessSeats = ({ rows, selectedSeat, onSeatClick, businessSeats }) => {
   return (
     <div className={styles.businessSection}>
-      {rows.map((row) => (
+      {rows.map((row, rowIndex) => (
         <div key={row} className={styles.row}>
-          {Array.from({ length: 2 }).map((_, index) => {
-            const seatId = `${row}${arr[index]}`;
-            return (
-              <div
-                key={seatId}
-                className={`${styles.seatBusiness} ${
-                  selectedSeat === seatId ? styles.selected : ""
-                }`}
-                onClick={() => onSeatClick(seatId)}
-              ></div>
-            );
-          })}
+          {businessSeats.slice(rowIndex * 4, rowIndex * 4 + 2).map((seat) => (
+            <div
+              key={seat.seatNumber}
+              className={`${styles.seatBusiness} ${
+                selectedSeat?.seatNumber === seat.seatNumber
+                  ? styles.selected
+                  : ""
+              }`}
+              onClick={() => onSeatClick(seat)}
+            ></div>
+          ))}
           <div className={styles.rowNumber}>{row}</div>
-          {Array.from({ length: 2 }).map((_, index) => {
-            const seatId = `${row}${arr[index + 2]}`;
-            return (
+          {businessSeats
+            .slice(rowIndex * 4 + 2, rowIndex * 4 + 4)
+            .map((seat) => (
               <div
-                key={seatId}
+                key={seat.seatNumber}
                 className={`${styles.seatBusiness} ${
-                  selectedSeat === seatId ? styles.selected : ""
+                  selectedSeat?.seatNumber === seat.seatNumber
+                    ? styles.selected
+                    : ""
                 }`}
-                onClick={() => onSeatClick(seatId)}
+                onClick={() => onSeatClick(seat)}
               ></div>
-            );
-          })}
+            ))}
         </div>
       ))}
     </div>
   );
 };
 
-const EconomySeats = ({ rows, exitrows, selectedSeat, onSeatClick }) => {
+const EconomySeats = ({
+  rows,
+  exitrows,
+  selectedSeat,
+  onSeatClick,
+  economySeats,
+}) => {
   return (
     <div className={styles.economySection}>
-      {rows.map((row) => (
+      {rows.map((row, rowIndex) => (
         <React.Fragment key={row}>
           {exitrows.includes(row) && (
             <div className={styles.rowexitrowcontainer}>
@@ -57,31 +61,31 @@ const EconomySeats = ({ rows, exitrows, selectedSeat, onSeatClick }) => {
             </div>
           )}
           <div className={styles.row}>
-            {Array.from({ length: 3 }).map((_, index) => {
-              const seatId = `${row}${arr[index]}`;
-              return (
-                <div
-                  key={seatId}
-                  className={`${styles.seatEconomy} ${
-                    selectedSeat === seatId ? styles.selected : ""
-                  }`}
-                  onClick={() => onSeatClick(seatId)}
-                ></div>
-              );
-            })}
+            {economySeats.slice(rowIndex * 6, rowIndex * 6 + 3).map((seat) => (
+              <div
+                key={seat.seatNumber}
+                className={`${styles.seatEconomy} ${
+                  selectedSeat?.seatNumber === seat.seatNumber
+                    ? styles.selected
+                    : ""
+                }`}
+                onClick={() => onSeatClick(seat)}
+              ></div>
+            ))}
             <span className={styles.rowNumber}>{row}</span>
-            {Array.from({ length: 3 }).map((_, index) => {
-              const seatId = `${row}${arr[index + 3]}`;
-              return (
+            {economySeats
+              .slice(rowIndex * 6 + 3, rowIndex * 6 + 6)
+              .map((seat) => (
                 <div
-                  key={seatId}
+                  key={seat.seatNumber}
                   className={`${styles.seatEconomy} ${
-                    selectedSeat === seatId ? styles.selected : ""
+                    selectedSeat?.seatNumber === seat.seatNumber
+                      ? styles.selected
+                      : ""
                   }`}
-                  onClick={() => onSeatClick(seatId)}
+                  onClick={() => onSeatClick(seat)}
                 ></div>
-              );
-            })}
+              ))}
           </div>
         </React.Fragment>
       ))}
@@ -89,10 +93,16 @@ const EconomySeats = ({ rows, exitrows, selectedSeat, onSeatClick }) => {
   );
 };
 
-const Seats = ({ selectedSeat, onSeatClick }) => {
-  const businessRows = [1, 2, 3, 4, 5];
+const Seats = ({ selectedSeat, onSeatClick, economySeats, businessSeats }) => {
+  const businessRows = Array.from(
+    { length: businessSeats.length / 4 },
+    (_, i) => i + 1
+  );
   const economyExitRows = [6, 14, 19, 29];
-  const economyRows = Array.from({ length: 28 }, (_, i) => i + 6);
+  const economyRows = Array.from(
+    { length: economySeats.length / 6 },
+    (_, i) => i + businessRows.length + 1
+  );
 
   return (
     <div className={styles.container}>
@@ -100,12 +110,14 @@ const Seats = ({ selectedSeat, onSeatClick }) => {
         rows={businessRows}
         selectedSeat={selectedSeat}
         onSeatClick={onSeatClick}
+        businessSeats={businessSeats}
       />
       <EconomySeats
         rows={economyRows}
         exitrows={economyExitRows}
         selectedSeat={selectedSeat}
         onSeatClick={onSeatClick}
+        economySeats={economySeats}
       />
     </div>
   );

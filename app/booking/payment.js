@@ -7,43 +7,53 @@ import LoginWithButton from "@/components/Authentication/loginwith";
 import CustomButton from "@/components/HomePage/button";
 import Reservation from "@/components/Flights/reservation";
 
-export default function PaymentPage({ selectedFlights, action }) {
-  const [formData, setFormData] = useState({
-    cardname: "",
-    cardnumber: "",
-    expiredate: "",
-    ccvnumber: "",
-    email: "",
-    password: "",
-  });
+export default function PaymentPage({
+  selectedFlights,
+  action,
+  setFormPaymentInfo,
+  formPaymentInfo,
+}) {
   const [isValidPayment, setIsValidPayment] = useState(false);
+  const [checkmarkChecked, setCheckmarkChecked] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
+    setFormPaymentInfo((prevData) => {
       const updatedData = { ...prevData, [name]: value };
       validateForm(updatedData);
       return updatedData;
     });
   };
 
+  const handleCheckboxChange = (e) => {
+    setCheckmarkChecked(e.target.checked);
+    validateForm({ ...formPaymentInfo, saveCard: e.target.checked });
+  };
+
   const validateForm = (data) => {
-    const { cardname, cardnumber, expiredate, ccvnumber, email, password } =
-      data;
+    const {
+      cardname = "",
+      cardnumber = "",
+      expiredate = "",
+      ccvnumber = "",
+      email = "",
+      password = "",
+    } = data;
+
     const isCardNumberValid = /^\d{16}$/.test(cardnumber);
     const isCCVValid = /^\d{3}$/.test(ccvnumber);
     const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const isPasswordEntered = password.trim() !== "";
+    const isEmailOrPasswordValid =
+      (!email && !password) || (isEmailValid && isPasswordEntered);
 
     const isValid =
       cardname &&
-      cardnumber &&
-      expiredate &&
-      ccvnumber &&
       isCardNumberValid &&
+      expiredate &&
       isCCVValid &&
-      isEmailValid &&
-      isPasswordEntered;
+      isEmailOrPasswordValid;
+
     setIsValidPayment(isValid);
   };
 
@@ -76,7 +86,7 @@ export default function PaymentPage({ selectedFlights, action }) {
                 type="text"
                 placeholder="Name on card"
                 name="cardname"
-                value={formData.cardname}
+                value={formPaymentInfo.cardname}
                 onChange={handleChange}
                 width="480"
               />
@@ -84,7 +94,7 @@ export default function PaymentPage({ selectedFlights, action }) {
                 type="tel"
                 placeholder="Card number"
                 name="cardnumber"
-                value={formData.cardnumber}
+                value={formPaymentInfo.cardnumber}
                 onChange={handleChange}
                 width="480"
               />
@@ -93,7 +103,7 @@ export default function PaymentPage({ selectedFlights, action }) {
                   type="date"
                   placeholder="Expiration date"
                   name="expiredate"
-                  value={formData.expiredate}
+                  value={formPaymentInfo.expiredate}
                   onChange={handleChange}
                   width="240"
                 />
@@ -101,7 +111,7 @@ export default function PaymentPage({ selectedFlights, action }) {
                   type="tel"
                   placeholder="CCV"
                   name="ccvnumber"
-                  value={formData.ccvnumber}
+                  value={formPaymentInfo.ccvnumber}
                   onChange={handleChange}
                   width="216"
                 />
@@ -125,27 +135,31 @@ export default function PaymentPage({ selectedFlights, action }) {
                     type="checkbox"
                     id="save-card-checkbox"
                     name="save-card"
+                    checked={checkmarkChecked}
+                    onChange={handleCheckboxChange}
                   />
                   <label htmlFor="save-card-checkbox">
                     Save card and create account for later
                   </label>
                 </div>
-                <CustomInput
-                  type="email"
-                  placeholder="Email address or phone number"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  width={480}
-                />
-                <CustomInput
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  width={480}
-                />
+                <>
+                  <CustomInput
+                    type="email"
+                    placeholder="Email address or phone number"
+                    name="email"
+                    value={formPaymentInfo.email}
+                    onChange={handleChange}
+                    width={480}
+                  />
+                  <CustomInput
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={formPaymentInfo.password}
+                    onChange={handleChange}
+                    width={480}
+                  />
+                </>
               </div>
             </div>
             <div className={styles.thirdpartySignup}>
@@ -195,7 +209,7 @@ export default function PaymentPage({ selectedFlights, action }) {
             />
           </div>
         </div>
-        <div>
+        <div className={styles.rightcontainer}>
           <Reservation
             flights={selectedFlights}
             type="passenger"
