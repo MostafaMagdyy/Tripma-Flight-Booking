@@ -113,6 +113,7 @@ export default function Flights({ action }) {
           times={selectedTimes}
           setArrivingFlights={setArrivingFlights}
           setDepartingFlights={setDepartingFlights}
+          searchParams={searchParams}
         ></SelectionInputs>
         <FilterComponent
           departingFlights={departingFlights}

@@ -1,28 +1,23 @@
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-
+    console.log(searchParams);
     const fromCity = searchParams.get("fromCity");
     const toCity = searchParams.get("toCity");
     const date = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
     const adults = parseInt(searchParams.get("adults") || "0");
     const minors = parseInt(searchParams.get("minors") || "0");
     const type = searchParams.get("type") === "true";
 
     // New filter parameters
     const maxPrice = searchParams.get("maxPrice");
-    const selectedTimes = searchParams.get("selectedTimes")?.split(",");
     const selectedAirlines = searchParams.get("selectedAirlines")?.split(",");
 
     const totalPassengers = adults + minors;
     const dateObj = new Date(date);
-    const endDateObj = new Date(endDate);
 
     let departingFlightsQuery = {
       where: {
@@ -48,17 +43,9 @@ export async function GET(request) {
     const applyFilters = (flights) => {
       return flights.filter((flight) => {
         const totalPrice = flight.subtotalPrice + flight.taxesAndFees;
-        const flightTime = new Date(flight.Date).getHours();
-        const flightTimeOfDay =
-          flightTime >= 0 && flightTime < 12
-            ? "Morning"
-            : flightTime >= 12 && flightTime < 18
-            ? "Afternoon"
-            : "Evening";
 
         return (
           (!maxPrice || totalPrice <= parseFloat(maxPrice.replace("$", ""))) &&
-          (!selectedTimes || selectedTimes.includes(flightTimeOfDay)) &&
           (!selectedAirlines || selectedAirlines.includes(flight.airlineName))
         );
       });
@@ -78,7 +65,7 @@ export async function GET(request) {
       duration: flight.duration,
       fromToTime: flight.fromToTime,
       date: flight.Date,
-      availableSeats: flight.Seats.length,
+      availableSeats: flight.Seats ? flight.Seats.length : 0,
       stopsNumber: flight.numberofStops,
       stopsInfo: flight.stopsInfo,
     }));
@@ -91,8 +78,11 @@ export async function GET(request) {
           toCity: fromCity,
           type: type,
           Date: {
-            gte: endDateObj,
-            lt: new Date(endDateObj.getTime() + 24 * 60 * 60 * 1000),
+            gte: new Date(searchParams.get("endDate")),
+            lt: new Date(
+              new Date(searchParams.get("endDate")).getTime() +
+                24 * 60 * 60 * 1000
+            ),
           },
         },
         include: {
@@ -119,16 +109,12 @@ export async function GET(request) {
         duration: flight.duration,
         fromToTime: flight.fromToTime,
         date: flight.Date,
-        availableSeats: flight.Seats.length,
+        availableSeats: flight.Seats ? flight.Seats.length : 0,
         stopsNumber: flight.numberofStops,
         stopsInfo: flight.stopsInfo,
       }));
     }
 
-    console.log({
-      departingFlights: formattedDepartingFlights,
-      arrivingFlights,
-    });
     return NextResponse.json({
       departingFlights: formattedDepartingFlights,
       arrivingFlights,
@@ -136,7 +122,7 @@ export async function GET(request) {
   } catch (error) {
     console.error("Search error:", error);
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: "Internal Server Error", error: error.message },
       { status: 500 }
     );
   }

@@ -17,6 +17,7 @@ export default function SelectionInputs({
   times = null,
   setDepartingFlights,
   setArrivingFlights,
+  searchParams,
 }) {
   const router = useRouter();
   const [selectedDates, setSelectedDates] = useState({
@@ -36,46 +37,49 @@ export default function SelectionInputs({
   };
 
   const handleSearch = async () => {
-    console.log(selectedCityFrom, selectedCityTo, selectedDates, adultsCount);
     if (
       !selectedCityFrom ||
       !selectedCityTo ||
       !selectedDates.startDate ||
       !adultsCount
     ) {
+      // Consider showing an error message to the user
+      console.error("Please fill in all required fields");
       return;
     }
-
-    const searchParams = {
-      fromCity: selectedCityFrom,
-      toCity: selectedCityTo,
-      startDate: selectedDates.startDate,
-      endDate: selectedDates.endDate,
-      adults: adultsCount,
-      minors: minorsCount,
-      maxPriceFilter,
-      airline,
-      times,
-      type,
-    };
 
     const currentPath = window.location.pathname;
     if (currentPath === "/flights") {
       try {
-        console.log("I am here");
-        const queryParams = new URLSearchParams(searchParams).toString();
+        const updatedParams = { ...searchParams };
+        if (maxPriceFilter !== null) updatedParams.maxPrice = maxPriceFilter;
+        if (times !== null) updatedParams.times = times;
+        if (airline !== null) updatedParams.selectedAirlines = airline;
+        const queryParams = new URLSearchParams(updatedParams).toString();
         const response = await fetch(`/api/flights?${queryParams}`);
         const result = await response.json();
         if (!response.ok) {
           throw new Error(result.message || "Failed to fetch flights");
         }
-        setDepartingFlights(result.departingFlights || []);
-        setArrivingFlights(result.arrivingFlights || []);
+        if (setDepartingFlights && setArrivingFlights) {
+          setDepartingFlights(result.departingFlights || []);
+          setArrivingFlights(result.arrivingFlights || []);
+        }
       } catch (error) {
         console.error("Search error:", error);
+        // Consider showing an error message to the user
       }
     } else {
-      localStorage.setItem("searchParams", JSON.stringify(searchParams));
+      const params = {
+        fromCity: selectedCityFrom,
+        toCity: selectedCityTo,
+        startDate: selectedDates.startDate,
+        endDate: selectedDates.endDate,
+        adults: adultsCount,
+        minors: minorsCount,
+        type: type,
+      };
+      localStorage.setItem("searchParams", JSON.stringify(params));
       router.push("/flights");
     }
   };
