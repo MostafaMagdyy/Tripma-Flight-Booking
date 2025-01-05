@@ -56,4 +56,4 @@ To set up the project locally, follow these steps:
    ```
 
 ## 🎨 Figma Design
-To view the design and user interface of Tripma, check out the Figma file: [[Tripma Figma Design]](https://www.figma.com/design/bluZKPaA5w2oeENuDQU8ww/Tripma---Flight-booking-web-app-(Community)?node-id=741-18830&t=PBCRrax6lCtliTFk-0)
+To view the design and user interface of Tripma, check out the Figma file: [Tripma Figma Design](https://www.figma.com/design/bluZKPaA5w2oeENuDQU8ww/Tripma---Flight-booking-web-app-(Community)?node-id=741-18830&t=PBCRrax6lCtliTFk-0)
